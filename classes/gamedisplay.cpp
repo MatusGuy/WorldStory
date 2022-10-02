@@ -21,8 +21,6 @@ GameDisplay::~GameDisplay() {
 void GameDisplay::setScene(QGraphicsScene* scene) {
     QGraphicsView::setScene(scene);
 
-    // no auto scrolling
-    scene->setSceneRect(QRectF(rect()));
-
-    setSceneRect(scene->sceneRect());
+    // no auto scrolling & 0,0 becomes top left instead of center
+    scene->setSceneRect(rect());
 }
