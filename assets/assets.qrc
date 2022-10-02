@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/test">
-        <file>tile.png</file>
+        <file>levels/testLevel.xml</file>
+        <file>textures/tile.png</file>
     </qresource>
 </RCC>

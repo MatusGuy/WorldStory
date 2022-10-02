@@ -13,6 +13,8 @@ namespace Graphics {
 
 class Tile;
 
+typedef QList<WS::Graphics::Tile*> TileList;
+
 class GridScene : public WS::Core::Scene {
     Q_OBJECT
 
@@ -33,7 +35,7 @@ class GridScene : public WS::Core::Scene {
          */
         int pointSpacing = 10;
 
-        QList<WS::Graphics::Tile*> tiles;
+        TileList tiles;
 
         signals:
 
