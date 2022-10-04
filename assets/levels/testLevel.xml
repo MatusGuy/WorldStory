@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<level>
-    <name>test</name>
+<level
+    name="test" >
 
-    <content>
-        <tile>
-            <pos>0,0</pos>
-        </tile>
-    </content>
+    <tile
+        pos="0,0"
+        img=":/test/textures/tile.png">
 
+    <tile
+        pos="1,0"
+        img=":/test/textures/tile.png">
+
+    <tile
+        pos="0,1"
+        img=":/test/textures/tile.png">
+
+    <tile
+        pos="1,1"
+        img=":/test/textures/tile.png">
 </level>

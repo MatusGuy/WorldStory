@@ -7,16 +7,19 @@
 
 #include "classes/scene.h"
 
+
 namespace WS {
+
+namespace Levels { struct Level; }
 
 namespace Graphics {
 
 class Tile;
 
-typedef QList<WS::Graphics::Tile*> TileList;
-
 class GridScene : public WS::Core::Scene {
     Q_OBJECT
+
+    Q_PROPERTY(int pointSpacing MEMBER pointSpacing)
 
     public:
         explicit GridScene(QObject* parent = nullptr);
@@ -33,9 +36,13 @@ class GridScene : public WS::Core::Scene {
          * @brief Spacing between each point in the grid
          * Applies to both coordinates
          */
-        int pointSpacing = 10;
+        int pointSpacing = 25;
 
-        TileList tiles;
+        void setLevel(WS::Levels::Level* lvl);
+
+        WS::Levels::Level* level = nullptr;
+
+        void addItem(QGraphicsItem *item);
 
         signals:
 
@@ -51,6 +58,7 @@ class GridScene : public WS::Core::Scene {
 
 }
 
+#include "classes/level.h"
 #include "classes/tile.h"
 
 #endif // GRIDSCENE_H

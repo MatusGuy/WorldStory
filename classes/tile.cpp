@@ -1,26 +1,32 @@
 #include "tile.h"
 
 using namespace WS::Graphics;
+using WS::Levels::Level;
 
-Tile::Tile(GridScene* g): QGraphicsPixmapItem() {
-    if (g != nullptr) {
-        grid = g;
+Tile::Tile(Level* lvl): QGraphicsPixmapItem() {
+    level = lvl;
 
-        grid->tiles.append(this);
-        grid->addItem(this);
-    }
+    level->content.append(this);
+
+    if (level->grid != nullptr) level->grid->addItem(this);
 }
 
 QRectF Tile::boundingRect() const {
-    return QRectF(0,0,grid->pointSpacing,grid->pointSpacing);
+    return QRectF(0,0,level->grid->pointSpacing+x(),level->grid->pointSpacing+y());
 }
 
 #pragma warning(push)
 #pragma warning(disable : 4100) // unreferenced parameter
 void Tile::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+    Q_UNUSED(widget);
+    Q_UNUSED(option);
+
     QRectF geo = boundingRect();
     geo.setTopLeft(pos());
 
+    painter->setRenderHints(QPainter::SmoothPixmapTransform | QPainter::Antialiasing);
     painter->drawPixmap(geo.toRect(), pixmap());
+
+    //QGraphicsPixmapItem::paint(painter, option, widget);
 }
 #pragma warning(pop)

@@ -23,4 +23,5 @@ void GameDisplay::setScene(QGraphicsScene* scene) {
 
     // no auto scrolling & 0,0 becomes top left instead of center
     scene->setSceneRect(rect());
+    //resize(scene->itemsBoundingRect().size().toSize());
 }

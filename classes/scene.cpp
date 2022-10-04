@@ -8,5 +8,5 @@ Scene::Scene(QObject *parent): QGraphicsScene{parent} {
 
 void Scene::drawLoop() {
     draw();
-    QTimer::singleShot(15, this, &Scene::draw);
+    QTimer::singleShot(15, this, &Scene::drawLoop);
 }

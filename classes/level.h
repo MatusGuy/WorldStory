@@ -3,13 +3,14 @@
 
 #include <QXmlStreamReader>
 #include <QFile>
-#include <QStringList>
+#include <QPixmap>
 
 #include <QtDebug>
 
 namespace WS {
 
     namespace Graphics {
+        class GridScene;
         class Tile;
 
         typedef QList<WS::Graphics::Tile*> TileList;
@@ -20,14 +21,16 @@ namespace WS {
         struct Level {
             QString name;
             WS::Graphics::TileList content;
+
+            WS::Graphics::GridScene* grid = nullptr;
         };
 
-        Level loadLevel(QFile* levelFile);
+        Level* loadLevel(QFile* levelFile);
 
     }
 
 }
 
-#include "classes/gridscene.h"
+#include "classes/tile.h"
 
 #endif // LEVEL_H

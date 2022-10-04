@@ -8,11 +8,13 @@
 
 namespace WS {
 
+namespace Levels { struct Level; }
+
 namespace Graphics {
 
 class Tile : public QGraphicsPixmapItem {
     public:
-        Tile(WS::Graphics::GridScene* g = nullptr);
+        Tile(WS::Levels::Level* lvl);
 
         QRectF boundingRect() const;
         void paint(
@@ -22,7 +24,7 @@ class Tile : public QGraphicsPixmapItem {
         );
 
     private:
-        GridScene* grid;
+        WS::Levels::Level* level = nullptr;
 };
 
 }

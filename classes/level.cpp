@@ -2,11 +2,11 @@
 
 using WS::Levels::Level;
 
-Level WS::Levels::loadLevel(QFile* levelFile) {
+Level* WS::Levels::loadLevel(QFile* levelFile) {
     if (levelFile->isOpen()) {
         if (levelFile->openMode() == QFile::WriteOnly) {
             qWarning("Level file is open in WriteOnly mode");
-            return Level();
+            return nullptr;
         }
     } else levelFile->open(QFile::ReadOnly);
 
@@ -14,33 +14,58 @@ Level WS::Levels::loadLevel(QFile* levelFile) {
 
     if (reader.readNextStartElement()) {
         if (reader.name().toString() != "level") {
-            reader.raiseError("<level> token missing");
-            return Level();
+            reader.raiseError("token missing: level");
+            return nullptr;
         }
 
-        Level out;
+        Level* out = new Level();
 
-        QStringList tokenNames;
-        tokenNames << "name" << "content";
+        QStringList lvlAtts = QStringList() << "name";
+        QStringList tileAtts = QStringList() << "pos" << "img";
 
-        while (reader.readNextStartElement()) {
-            QString prop  = reader.name().toString();
-            QString value = reader.text().toString();
-
-            qDebug() << value;
-
-            switch (tokenNames.indexOf(prop)) {
+        for (const QXmlStreamAttribute& lvlAtt : reader.attributes()) {
+            switch (lvlAtts.indexOf(lvlAtt.name())) {
                 case 0: // name
-                    out.name = value;
+                    out->name = lvlAtt.value().toString();
                     break;
 
-                case 1:  break; // content
                 default: break;
             }
         }
 
+        while (reader.readNextStartElement()) {
+            QString name = reader.name().toString();
+            if (name != "tile") {
+                reader.raiseError("unknown token: "+name);
+                delete out;
+                return nullptr;
+            }
+
+            WS::Graphics::Tile* newTile = new WS::Graphics::Tile(out);
+
+            for (const QXmlStreamAttribute& lvlAtt : reader.attributes()) {
+                switch (tileAtts.indexOf(lvlAtt.name())) {
+                    case 0: { // pos
+                        QStringList pos = lvlAtt.value().toString().split(',');
+                        newTile->setX(pos[0].toInt());
+                        newTile->setY(pos[1].toInt());
+                        break;
+                    }
+
+                    case 1: // img
+                        newTile->setPixmap(QPixmap(lvlAtt.value().toString()));
+                        break;
+
+                    default: break;
+                }
+            }
+
+            // tile already added by constructor
+        }
+
         return out;
     } else {
-        return Level();
+        reader.raiseError("no tokens found");
+        return nullptr;
     }
 }

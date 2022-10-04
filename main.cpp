@@ -12,16 +12,21 @@ int main(int argc, char* argv[]) {
 
     WS::Core::GameDisplay w;
 
-    WS::Graphics::GridScene s;
+    WS::Graphics::GridScene s(&w);
     w.setScene(&s);
 
-    WS::Graphics::Tile t(&s);
+    WS::Levels::Level* l = WS::Levels::loadLevel(new QFile(":/test/levels/testLevel.xml"));
+    s.setLevel(l);
+
+    /*
+    WS::Graphics::Tile t(&l);
     t.setPixmap(QPixmap(":/test/textures/tile.png"));
+    */
 
     s.drawLoop();
     w.show();
 
-    WS::Levels::loadLevel(new QFile(":/test/levels/testLevel.xml"));
+
 
     return a.exec();
 }
