@@ -35,6 +35,7 @@ class GridScene : public WS::Core::Scene {
         /**
          * @brief Spacing between each point in the grid
          * Applies to both coordinates
+         * Aka. tile size
          */
         int pointSpacing = 25;
 

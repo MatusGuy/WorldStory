@@ -6,6 +6,7 @@
 #include <QApplication>
 #include <QPixmap>
 #include <QFile>
+#include <QPoint>
 
 int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
@@ -22,6 +23,8 @@ int main(int argc, char* argv[]) {
     WS::Graphics::Tile t(&l);
     t.setPixmap(QPixmap(":/test/textures/tile.png"));
     */
+
+    //l->content[3]->setPos(QPoint(s.pointSpacing/2, s.pointSpacing/2));
 
     s.drawLoop();
     w.show();

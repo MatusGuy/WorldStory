@@ -9,23 +9,23 @@ GridScene::GridScene(QObject *parent): WS::Core::Scene(parent) {
 }
 
 QPoint GridScene::getPoint(int x, int y) {
-    return QPoint(x*pointSpacing, y*pointSpacing);
+    return QPoint((x*pointSpacing)/2, (y*pointSpacing)/2);
 }
 
 void GridScene::draw() {
     assert(level!=nullptr);
 
     for (Tile* tile : level->content) {
-        qDebug() << tile << tile->parentItem();
+        //qDebug() << tile << tile->parentItem();
         tile->update();
     }
 }
 
 void GridScene::addItem(QGraphicsItem* item) {
     WS::Core::Scene::addItem(item);
-    qDebug() << "old" << item->pos();
+    //qDebug() << "old" << item->pos() << item->boundingRect().bottomRight();
     item->setPos(getPoint(item->x(), item->y()));
-    qDebug() << "new" << item->pos();
+    qDebug() << "new" << item->pos() << item->boundingRect().bottomRight();
 }
 
 void GridScene::setLevel(WS::Levels::Level* lvl) {
