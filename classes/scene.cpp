@@ -3,10 +3,12 @@
 using namespace WS::Core;
 
 Scene::Scene(QObject *parent): QGraphicsScene{parent} {
-    setBackgroundBrush(QBrush(Qt::GlobalColor::black));
+    setBackgroundBrush(QBrush(Qt::GlobalColor::white));
+
+
 }
 
 void Scene::drawLoop() {
     draw();
-    QTimer::singleShot(15, this, &Scene::drawLoop);
+    QTimer::singleShot(75, this, &Scene::drawLoop);
 }

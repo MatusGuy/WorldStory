@@ -12,7 +12,10 @@ Tile::Tile(Level* lvl): QGraphicsPixmapItem() {
 }
 
 QRectF Tile::boundingRect() const {
-    return QRectF(0,0,level->grid->pointSpacing+x(),level->grid->pointSpacing+y());
+    return QRectF(
+        0,0,
+        level->grid->pointSpacing,level->grid->pointSpacing
+    );
 }
 
 void Tile::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
@@ -20,11 +23,8 @@ void Tile::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
     Q_UNUSED(option);
 
     QRectF geo = boundingRect();
-    geo.setTopLeft(pos());
-
-    painter->setRenderHints(QPainter::SmoothPixmapTransform | QPainter::Antialiasing);
     painter->drawPixmap(geo.toRect(), pixmap());
-
+    painter->drawRect(geo);
 
 
     //QGraphicsPixmapItem::paint(painter, option, widget);

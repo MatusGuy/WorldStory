@@ -1,7 +1,5 @@
 #include "classes/gamedisplay.h"
 #include "classes/gridscene.h"
-#include "classes/tile.h"
-#include "classes/level.h"
 
 #include <QApplication>
 #include <QPixmap>
@@ -24,7 +22,7 @@ int main(int argc, char* argv[]) {
     t.setPixmap(QPixmap(":/test/textures/tile.png"));
     */
 
-    //l->content[3]->setPos(QPoint(s.pointSpacing/2, s.pointSpacing/2));
+    //l->content[1]->setPos(QPoint(0, s.pointSpacing));
 
     s.drawLoop();
     w.show();

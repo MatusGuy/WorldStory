@@ -3,6 +3,8 @@
 
 #include <QGraphicsView>
 
+#include <QOpenGLWidget>
+
 namespace WS {
 
 namespace Core {

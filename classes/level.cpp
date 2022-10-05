@@ -21,7 +21,8 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
         Level* out = new Level();
 
         QStringList lvlAtts = QStringList() << "name";
-        QStringList tileAtts = QStringList() << "pos" << "img";
+        QStringList tileNames = QStringList() << "tile" << "tilefield";
+        QStringList tileAtts = QStringList() << "pos" << "img" << "size";
 
         for (const QXmlStreamAttribute& lvlAtt : reader.attributes()) {
             switch (lvlAtts.indexOf(lvlAtt.name())) {
@@ -35,32 +36,69 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
 
         while (reader.readNextStartElement()) {
             QString name = reader.name().toString();
-            if (name != "tile") {
-                reader.raiseError("unknown token: "+name);
-                delete out;
-                return nullptr;
-            }
+            // TODO: Optimize
+            switch (tileNames.indexOf(name)) {
+                case -1: { // unknown
+                    if (tileNames.indexOf(name) != -1) {
+                        reader.raiseError("unknown token: "+name);
+                        delete out;
+                        return nullptr;
+                    }
+                }
 
-            WS::Graphics::Tile* newTile = new WS::Graphics::Tile(out);
+                case 0: { // tile
+                    WS::Graphics::Tile* newTile = new WS::Graphics::Tile(out);
 
-            for (const QXmlStreamAttribute& lvlAtt : reader.attributes()) {
-                switch (tileAtts.indexOf(lvlAtt.name())) {
-                    case 0: { // pos
-                        QStringList pos = lvlAtt.value().toString().split(',');
-                        newTile->setX(pos[0].toInt());
-                        newTile->setY(pos[1].toInt());
-                        break;
+                    for (const QXmlStreamAttribute& lvlAtt : reader.attributes()) {
+                        switch (tileAtts.indexOf(lvlAtt.name())) {
+                            case 0: { // pos
+                                QStringList pos = lvlAtt.value().toString().split(',');
+                                newTile->setX(pos[0].toInt());
+                                newTile->setY(pos[1].toInt());
+                                break;
+                            }
+
+                            case 1: // img
+                                newTile->setPixmap(QPixmap(lvlAtt.value().toString()));
+                                break;
+
+                            default: break;
+                        }
                     }
 
-                    case 1: // img
-                        newTile->setPixmap(QPixmap(lvlAtt.value().toString()));
-                        break;
+                    // tile already added by constructor
+                }
 
-                    default: break;
+                case 1: { // tile field
+                    WS::Graphics::TileField* newTile = new WS::Graphics::TileField(out);
+
+                    for (const QXmlStreamAttribute& lvlAtt : reader.attributes()) {
+                        switch (tileAtts.indexOf(lvlAtt.name())) {
+                            case 0: { // pos
+                                QStringList pos = lvlAtt.value().toString().split(',');
+                                newTile->setX(pos[0].toInt());
+                                newTile->setY(pos[1].toInt());
+                                break;
+                            }
+
+                            case 1: // img
+                                newTile->setPixmap(QPixmap(lvlAtt.value().toString()));
+                                break;
+
+                            case 2: { // size
+                                QStringList size = lvlAtt.value().toString().split(',');
+                                newTile->size.setWidth(size[0].toInt());
+                                newTile->size.setHeight(size[1].toInt());
+                                break;
+                            }
+
+                            default: break;
+                        }
+                    }
+
+                    // tile already added by constructor
                 }
             }
-
-            // tile already added by constructor
         }
 
         return out;

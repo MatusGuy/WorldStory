@@ -9,7 +9,7 @@ GridScene::GridScene(QObject *parent): WS::Core::Scene(parent) {
 }
 
 QPoint GridScene::getPoint(int x, int y) {
-    return QPoint((x*pointSpacing)/2, (y*pointSpacing)/2);
+    return QPoint(x*pointSpacing, y*pointSpacing);
 }
 
 void GridScene::draw() {

@@ -4,7 +4,7 @@
 #include <QGraphicsPixmapItem>
 #include <QPainter>
 
-#include "classes/gridscene.h"
+#include <typeinfo>
 
 namespace WS {
 
@@ -23,12 +23,14 @@ class Tile : public QGraphicsPixmapItem {
             QWidget* widget
         );
 
-    private:
+    protected:
         WS::Levels::Level* level = nullptr;
 };
 
 }
 
 }
+
+#include "level.h"
 
 #endif // TILE_H

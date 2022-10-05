@@ -7,12 +7,12 @@
 
 #include <QtDebug>
 
+#include "gridscene.h"
+#include "tilefield.h"
+
 namespace WS {
 
     namespace Graphics {
-        class GridScene;
-        class Tile;
-
         typedef QList<WS::Graphics::Tile*> TileList;
     }
 
@@ -30,7 +30,5 @@ namespace WS {
     }
 
 }
-
-#include "classes/tile.h"
 
 #endif // LEVEL_H
