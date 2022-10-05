@@ -23,6 +23,8 @@ class Tile : public QGraphicsPixmapItem {
             QWidget* widget
         );
 
+        QPoint initPos;
+
     protected:
         WS::Levels::Level* level = nullptr;
 };

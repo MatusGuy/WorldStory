@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QPoint>
 #include <QList>
+#include <QKeyEvent>
 
 #include "classes/scene.h"
 
@@ -39,17 +40,22 @@ class GridScene : public WS::Core::Scene {
          */
         int pointSpacing = 25;
 
+        QPoint offset;
+
         void setLevel(WS::Levels::Level* lvl);
 
         WS::Levels::Level* level = nullptr;
 
         void addItem(QGraphicsItem *item);
 
+
+
         signals:
 
 
 
     protected:
+        void keyPressEvent(QKeyEvent* event);
 
         protected slots:
             void draw();

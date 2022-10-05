@@ -2,8 +2,17 @@
 <level
     name="test" >
 
+    <tile
+        pos="5,10"
+        img=":/test/textures/testTile.png" >
+
+
+    <tile
+        pos="50,4"
+        img=":/test/textures/testTile.png" >
+
     <tilefield
         pos="0,18"
-        size="30,2"
+        size="60,2"
         img=":/test/textures/testTile.png" >
 </level>

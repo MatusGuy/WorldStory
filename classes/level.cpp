@@ -78,6 +78,7 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
                                 QStringList pos = lvlAtt.value().toString().split(',');
                                 newTile->setX(pos[0].toInt());
                                 newTile->setY(pos[1].toInt());
+                                newTile->initPos = newTile->pos().toPoint();
                                 break;
                             }
 
