@@ -13,10 +13,14 @@ QPoint GridScene::getPoint(int x, int y) {
 void GridScene::draw() {
     assert(level!=nullptr);
 
+    if (offset==oldoff) return;
+
     for (Tile* tile : level->content) {
         tile->setPos(getPoint(tile->initPos.x(), tile->initPos.y()) - offset);
         tile->update();
     }
+
+    oldoff = offset;
 }
 
 void GridScene::addItem(QGraphicsItem* item) {
@@ -27,7 +31,7 @@ void GridScene::addItem(QGraphicsItem* item) {
 }
 
 void GridScene::keyPressEvent(QKeyEvent* event) {
-    qDebug() << "press!!!!!";
+    //qDebug() << "press!!!!!";
     switch (event->key()) {
         case Qt::Key_A:
             offset.rx() -= 5;

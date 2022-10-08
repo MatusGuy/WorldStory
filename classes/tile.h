@@ -12,6 +12,15 @@ namespace Levels { struct Level; }
 
 namespace Graphics {
 
+enum SceneSide {
+    None  = 0,
+
+    Left  = 1,
+    Right = 2,
+    Up    = 4,
+    Down  = 8,
+};
+
 class Tile : public QGraphicsPixmapItem {
     public:
         Tile(WS::Levels::Level* lvl);
@@ -22,6 +31,8 @@ class Tile : public QGraphicsPixmapItem {
             const QStyleOptionGraphicsItem* option,
             QWidget* widget
         );
+
+        WS::Graphics::SceneSide isOffscreenFrom();
 
         QPoint initPos;
 

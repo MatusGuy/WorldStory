@@ -48,8 +48,6 @@ class GridScene : public WS::Core::Scene {
 
         void addItem(QGraphicsItem *item);
 
-
-
         signals:
 
 
@@ -59,6 +57,9 @@ class GridScene : public WS::Core::Scene {
 
         protected slots:
             void draw();
+
+    private:
+        QPoint oldoff;
 };
 
 }
