@@ -24,7 +24,7 @@ void Tile::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
     Q_UNUSED(widget);
     Q_UNUSED(option);
 
-    if (!isOffscreenFrom()) return;
+    if (isOffscreenFrom() != SceneSide::None) return;
 
     QRectF geo = boundingRect();
     painter->drawPixmap(geo.toRect(), pixmap());

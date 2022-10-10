@@ -12,6 +12,8 @@ SOURCES += $$files(*.cpp, true)
 
 HEADERS += $$files(*.h,   true)
 
+FORMS += $$files(classes/editor/*.ui, true)
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
