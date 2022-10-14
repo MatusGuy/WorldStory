@@ -1,0 +1,4 @@
+[submodule "WorldStoryCreator"]
+    path = creator
+    url = https://github.com/MatusGuy/WorldStoryCreator
+    ignore = all
