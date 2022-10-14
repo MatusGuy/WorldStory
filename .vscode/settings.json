@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.theme": "json",
+        "qopenglwidget": "cpp"
+    }
+}
