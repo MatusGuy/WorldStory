@@ -20,4 +20,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    assets/assets.qrc
+    assets/assets.qrc \
+    creator/assets/creatorassets.qrc
