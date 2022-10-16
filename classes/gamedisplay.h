@@ -5,9 +5,7 @@
 
 #include <QOpenGLWidget>
 
-namespace WS {
-
-namespace Core {
+namespace WS::Core {
 
 class GameDisplay : public QGraphicsView {
     Q_OBJECT
@@ -18,8 +16,6 @@ class GameDisplay : public QGraphicsView {
 
         void setScene(QGraphicsScene* scene);
 };
-
-}
 
 }
 
