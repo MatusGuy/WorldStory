@@ -37,7 +37,8 @@ namespace WS::Core {
     }
 
     inline int launchCreator() {
-        applyStyle(":/creator/style/appstyle.css");
+        QApplication::setStyle("Fusion");
+        applyStyle(":/creator/style/appstyle.qss");
 
         WS::Creator::MainWindow w;
         w.show();

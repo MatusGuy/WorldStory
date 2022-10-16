@@ -1,0 +1,45 @@
+/*Sylesheet for WorldStoryCreator*/
+
+/*
+Palette:
+
+$background = #17171D (Background of most widgets)
+$border = gray
+$text = #DEDEDE (Colour of most text)
+$highlight = qlineargradient(x1:0,x2:0,y1:0,y2:1,stop: 0 #003789, stop: 1 #174EA1);
+*/
+
+QWidget {
+    background-color: #17171D;
+    color: #DEDEDE;
+}
+
+QFrame {
+    border: 1px solid gray;
+}
+
+QMenu {
+    border: 1px solid gray;
+    border-radius: 5px;
+    border-top-left-radius: 0px;
+}
+
+QMenuBar {
+    border: 1px solid gray;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-bottom: 3px;
+}
+
+QMenu::item:selected {
+    background-color: qlineargradient(x1:0,x2:0,y1:0,y2:1,stop: 0 #003789, stop: 1 #174EA1);
+}
+
+QMenu::seperator {
+    background-color: gray;
+}
+
+QMenuBar::item:selected {
+    background-color: qlineargradient(x1:0,x2:0,y1:0,y2:1,stop: 0 #003789, stop: 1 #174EA1);
+    margin-bottom: 3px;
+}

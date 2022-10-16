@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/creator">
-        <file>style/appstyle.css</file>
+        <file>style/appstyle.qss</file>
     </qresource>
 </RCC>
