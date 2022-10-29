@@ -8,17 +8,21 @@
 
 namespace WS::Graphics {
 
-class TileField : public WS::Graphics::Tile {
+class QT_DEPRECATED TileField : public WS::Graphics::Tile {
     public:
-        TileField(WS::Levels::Level* lvl);
+        TileField(Levels::Level* lvl);
 
         QRectF boundingRect() const;
 
         QSize size;
 
-        void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
+        void paint(
+            QPainter* painter,
+            const QStyleOptionGraphicsItem* option,
+            QWidget* widget
+        );
 };
 
-}
+}  // namespace WS::Graphics
 
-#endif // TILEFIELD_H
+#endif  // TILEFIELD_H

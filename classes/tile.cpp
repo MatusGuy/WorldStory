@@ -3,7 +3,7 @@
 using namespace WS::Graphics;
 using WS::Levels::Level;
 
-Tile::Tile(Level* lvl): QGraphicsPixmapItem() {
+Tile::Tile(Level* lvl) : QGraphicsPixmapItem() {
     setCacheMode(CacheMode::DeviceCoordinateCache);
 
     level = lvl;
@@ -14,17 +14,18 @@ Tile::Tile(Level* lvl): QGraphicsPixmapItem() {
 }
 
 QRectF Tile::boundingRect() const {
-    return QRectF(
-        0,0,
-        level->grid->pointSpacing,level->grid->pointSpacing
-    );
+    return QRectF(0, 0, level->grid->pointSpacing, level->grid->pointSpacing);
 }
 
-void Tile::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+void Tile::paint(
+    QPainter* painter,
+    const QStyleOptionGraphicsItem* option,
+    QWidget* widget
+) {
     Q_UNUSED(widget);
     Q_UNUSED(option);
 
-    if (isOffscreenFrom() != SceneSide::None) return;
+    //if (isOffscreenFrom() != SceneSide::None) return;
 
     QRectF geo = boundingRect();
     painter->drawPixmap(geo.toRect(), pixmap());
@@ -36,16 +37,25 @@ SceneSide Tile::isOffscreenFrom() {
     int out = SceneSide::None;
     QRect sceneRect = level->grid->sceneRect().toRect();
 
-    if (x() > sceneRect.right() ) out |= SceneSide::Right;
+    if (x() > sceneRect.right()) out |= SceneSide::Right;
     if (y() > sceneRect.bottom()) out |= SceneSide::Down;
 
     // don't run the rest of the checks if 2 last ones said yes
-    if (out == (SceneSide::Right | SceneSide::Down)) return (SceneSide) out;
+    if (out == (SceneSide::Right | SceneSide::Down)) return (SceneSide)out;
 
-    QPoint bottomRight = boundingRect().bottomRight().toPoint()+scenePos().toPoint();
+    QPoint bottomRight = boundingRect().bottomRight().toPoint() + scenePos().toPoint();
 
     if (bottomRight.x() < 0) out |= SceneSide::Left;
     if (bottomRight.y() < 0) out |= SceneSide::Up;
 
-    return (SceneSide) out;
+    return (SceneSide)out;
+}
+
+template <typename T>
+QList<T> Tile::cropListFromRange(QList<T>* list, int a, int b) {
+    QList<T> out;
+    for (int i = a; i < b; i++) {
+        out.append(list[i]);
+    }
+    return out;
 }

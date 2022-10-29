@@ -103,6 +103,8 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
             }
         }
 
+        levelFile->close();
+
         return out;
     } else {
         reader.raiseError("no tokens found");

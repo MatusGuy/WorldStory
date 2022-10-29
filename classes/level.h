@@ -19,6 +19,12 @@ namespace WS {
     namespace Levels {
 
         struct Level {
+            ~Level() {
+                for (WS::Graphics::Tile* tile : content) {
+                    delete tile;
+                }
+            }
+
             QString name;
             WS::Graphics::TileList content;
 
