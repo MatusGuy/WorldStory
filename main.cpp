@@ -1,16 +1,17 @@
+#include <QApplication>
+#include <QCommandLineParser>
+#include <QFile>
+#include <QPoint>
+
 #include "classes/gamedisplay.h"
 #include "classes/gridscene.h"
 #include "creator/classes/mainwindow.h"
 
-#include <QApplication>
-#include <QFile>
-#include <QPoint>
-#include <QCommandLineParser>
-
 bool applyStyle(QString sheetname) {
     QFile stylesheet(sheetname);
+    QApplication* app = ((QApplication*)QApplication::instance());
     if (stylesheet.open(QFile::ReadOnly)) {
-        ((QApplication*) QApplication::instance())->setStyleSheet(stylesheet.readAll());
+        app->setStyleSheet(stylesheet.readAll());
         stylesheet.close();
         return true;
     }
@@ -18,39 +19,45 @@ bool applyStyle(QString sheetname) {
 }
 
 namespace WS::Core {
-    inline int launchGame() {
-        WS::Core::GameDisplay w;
 
-        WS::Graphics::GridScene s(&w);
-        w.setScene(&s);
+int launchGame() {
+    WS::Core::GameDisplay w;
 
-        QFile lf(":/test/levels/testLevel.xml");
-        WS::Levels::Level* l = WS::Levels::loadLevel(&lf);
-        s.setLevel(l);
+    WS::Graphics::GridScene s(&w);
+    w.setScene(&s);
 
-        //l->content[1]->setPos(QPoint(0, s.pointSpacing));
+    QFile lf(":/test/levels/testLevel.xml");
+    WS::Levels::Level* l = WS::Levels::loadLevel(&lf);
+    s.setLevel(l);
 
-        s.drawLoop();
-        w.show();
+    // l->content[1]->setPos(QPoint(0, s.pointSpacing));
 
-        return QApplication::exec();
-    }
+    s.drawLoop();
+    w.show();
 
-    inline int launchCreator() {
-        QApplication::setStyle("Fusion");
-        applyStyle(":/creator/style/appstyle.qss");
+    int resp = QApplication::exec();
 
-        WS::Creator::MainWindow w;
-        w.show();
+    delete l;
 
-        return QApplication::exec();
-    }
-
-    inline int launchCreator(QFile levelFile) {
-        // later adding code for loading level file on main window class
-        return launchCreator();
-    }
+    return resp;
 }
+
+int launchCreator() {
+    QApplication::setStyle("Fusion");
+    applyStyle(":/creator/style/appstyle.qss");
+
+    WS::Creator::MainWindow w;
+    w.show();
+
+    return QApplication::exec();
+}
+
+int launchCreator(QFile levelFile) {
+    // later adding code for loading level file on main window class
+    return launchCreator();
+}
+
+}  // namespace WS::Core
 
 int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
@@ -64,7 +71,8 @@ int main(int argc, char* argv[]) {
     cli.addVersionOption();
 
     QCommandLineOption creatorOption(
-        QStringList() << "c" << "creator",
+        QStringList() << "c"
+                      << "creator",
         R"(Open creator on <levelFile> instead of game. If <levelFile> is "none" then open creator on an empty level)",
         "levelFile"
     );
@@ -74,7 +82,10 @@ int main(int argc, char* argv[]) {
 
     if (cli.isSet(creatorOption)) {
         QString levelFile = cli.value(creatorOption);
-        if (levelFile == "none") return WS::Core::launchCreator();
-        else return WS::Core::launchCreator(QFile(levelFile));
-    } else return WS::Core::launchGame();
+        if (levelFile == "none")
+            return WS::Core::launchCreator();
+        else
+            return WS::Core::launchCreator(QFile(levelFile));
+    } else
+        return WS::Core::launchGame();
 }
