@@ -1,20 +1,19 @@
 #include "tile.h"
 
 using namespace WS::Graphics;
-using WS::Levels::Level;
 
-Tile::Tile(Level* lvl) : QGraphicsPixmapItem() {
+Tile::Tile() : QGraphicsPixmapItem() {
     setCacheMode(CacheMode::DeviceCoordinateCache);
+    setupAttributes();
+}
 
-    level = lvl;
-
-    level->content.append(this);
-
-    if (level->grid != nullptr) level->grid->addItem(this);
+void Tile::setupAttributes() {
+    attributeNames.append("pos");
+    attributeNames.append("img");
 }
 
 QRectF Tile::boundingRect() const {
-    return QRectF(0, 0, level->grid->pointSpacing, level->grid->pointSpacing);
+    return QRectF(0, 0, size, size);
 }
 
 void Tile::paint(
@@ -51,11 +50,21 @@ SceneSide Tile::isOffscreenFrom() {
     return (SceneSide)out;
 }
 
-template <typename T>
-QList<T> Tile::cropListFromRange(QList<T>* list, int a, int b) {
-    QList<T> out;
-    for (int i = a; i < b; i++) {
-        out.append(list[i]);
+void Tile::setAttribute(QString name, QString value) {
+    switch (attributeNames.indexOf(name)) {
+        case -1: qCritical << "attribute " + name + " not found";
+
+        // pos
+        case 0: {
+            QStringList pos = value.split(',');
+            gridPos.setX(pos[0].toInt());
+            gridPos.setY(pos[1].toInt());
+            break;
+        }
+
+        // img
+        case 1:
+            setPixmap(QPixmap(value));
+            break;
     }
-    return out;
 }

@@ -7,33 +7,17 @@
 
 #include <QtDebug>
 
-#include "gridscene.h"
-#include "tilefield.h"
+#include "grid.h"
 
-namespace WS {
+namespace WS::Levels {
 
-    namespace Graphics {
-        typedef QList<WS::Graphics::Tile*> TileList;
-    }
+    struct Level {
 
-    namespace Levels {
+        QString name;
+        WS::Graphics::Grid content;
+    };
 
-        struct Level {
-            ~Level() {
-                for (WS::Graphics::Tile* tile : content) {
-                    delete tile;
-                }
-            }
-
-            QString name;
-            WS::Graphics::TileList content;
-
-            WS::Graphics::GridScene* grid = nullptr;
-        };
-
-        Level* loadLevel(QFile* levelFile);
-
-    }
+    Level* loadLevel(QFile* levelFile);
 
 }
 

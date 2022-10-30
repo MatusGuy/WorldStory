@@ -3,34 +3,30 @@
 using namespace WS::Graphics;
 
 GridScene::GridScene(QObject* parent) : WS::Core::Scene(parent) {
-    assert(pointSpacing >= 0);
+    //world = new Grid(this);
+}
+
+GridScene::~GridScene() {
+    //delete world;
 }
 
 QPoint GridScene::getPoint(int x, int y) {
-    return QPoint(x * pointSpacing, y * pointSpacing);
+    return QPoint(x * tileSize, y * tileSize);
 }
 
 void GridScene::draw() {
     assert(level != nullptr);
 
-    if (offset == oldoff) return;
+    if (cameraPos == oldCamPos) return;
 
-    QPoint bottomRight = sceneRect().bottomRight().toPoint() + offset;
+    QPoint bottomRight = sceneRect().bottomRight().toPoint() + cameraPos;
 
-    toDraw = (TileList)crop2DListFromRanges<Tile*>(
-        level->content,
-        offset.x(),
-        offset.y(),
-        bottomRight.x(),
-        bottomRight.y()
-    );
-
-    for (Tile* tile : toDraw) {
+    for (Tile* tile : world->capture(cameraPos, bottomRight)) {
         //tile->setPos(getPoint(tile->initPos.x(), tile->initPos.y()) - offset);
         tile->update();
     }
 
-    oldoff = offset;
+    oldCamPos = cameraPos;
 }
 
 void GridScene::addItem(QGraphicsItem* item) {
@@ -44,11 +40,11 @@ void GridScene::keyPressEvent(QKeyEvent* event) {
     //qDebug() << "press!!!!!";
     switch (event->key()) {
         case Qt::Key_A:
-            offset.rx() -= 5;
+            cameraPos.rx() += 1;
             break;
 
         case Qt::Key_D:
-            offset.rx() += 5;
+            cameraPos.rx() -= 1;
             break;
 
         default:
@@ -66,7 +62,7 @@ void GridScene::setLevel(WS::Levels::Level* lvl) {
     level = lvl;
     level->grid = this;
     for (Tile* tile : level->content) {
-        world[tile->gridPos.x()][tile->gridPos.y()] = tile;
+        world->place(tile->gridPos.x(), tile->gridPos.y(), tile);
         addItem(tile);
     }
 }

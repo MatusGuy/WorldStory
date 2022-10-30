@@ -22,7 +22,8 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
 
         QStringList lvlAtts = QStringList() << "name";
         QStringList tileNames = QStringList() << "tile" << "tilefield";
-        QStringList tileAtts = QStringList() << "pos" << "img" << "size";
+        //QStringList tileAtts = QStringList() << "pos" << "img" << "size";
+
 
         for (const QXmlStreamAttribute& lvlAtt : reader.attributes()) {
             switch (lvlAtts.indexOf(lvlAtt.name())) {
@@ -47,9 +48,10 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
                 }
 
                 case 0: { // tile
-                    WS::Graphics::Tile* newTile = new WS::Graphics::Tile(out);
+                    WS::Graphics::Tile* newTile = new WS::Graphics::Tile();
 
                     for (const QXmlStreamAttribute& lvlAtt : reader.attributes()) {
+                        /*
                         switch (tileAtts.indexOf(lvlAtt.name())) {
                             case 0: { // pos
                                 QStringList pos = lvlAtt.value().toString().split(',');
@@ -65,11 +67,23 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
 
                             default: break;
                         }
+                        */
+                        newTile->setAttribute(
+                            lvlAtt.name().toString(),
+                            lvlAtt.value().toString()
+                        );
                     }
+
+                    out->content.place(
+                        newTile->gridPos.x(),
+                        newTile->gridPos.y(),
+                        newTile
+                    );
 
                     // tile already added by constructor
                 }
 
+                /*
                 case 1: { // tile field
                     WS::Graphics::TileField* newTile = new WS::Graphics::TileField(out);
 
@@ -100,6 +114,7 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
 
                     // tile already added by constructor
                 }
+                */
             }
         }
 

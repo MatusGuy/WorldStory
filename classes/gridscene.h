@@ -6,7 +6,8 @@
 #include <QList>
 #include <QPoint>
 
-#include "classes/scene.h"
+#include "scene.h"
+#include "level.h"
 
 namespace WS {
 
@@ -15,22 +16,23 @@ namespace Levels { struct Level; }
 // clang-format on
 
 namespace Graphics {
-
     class Tile;
+    class Grid;
 
     typedef QList<WS::Graphics::Tile*> TileList;
-    typedef QList<TileList> Grid;
+    //typedef QList<TileList> Grid;
 
     class GridScene : public WS::Core::Scene {
             Q_OBJECT
 
-            Q_PROPERTY(int pointSpacing MEMBER pointSpacing)
+            Q_PROPERTY(int tileSize MEMBER tileSize)
 
         public:
             explicit GridScene(QObject* parent = nullptr);
+            ~GridScene();
 
             /**
-             * @brief Get QPoint% from position on the grid
+             * @brief Get QPoint from position on the grid
              * @param x horizontal position of the wanted grid space
              * @param y vertical position of the wanted grid space
              * @return location relative to game display
@@ -42,11 +44,11 @@ namespace Graphics {
              * Applies to both coordinates
              * Aka. tile size
              */
-            int pointSpacing = 25;
+            int tileSize = 25;
 
-            QPoint offset;
+            QPoint cameraPos;
 
-            Grid world;
+            Grid* world;
 
             void setLevel(WS::Levels::Level* lvl);
 
@@ -71,20 +73,17 @@ namespace Graphics {
         protected:
             void keyPressEvent(QKeyEvent* event);
 
-            WS::Graphics::TileList toDraw;
-
         protected slots:
             void draw();
 
         private:
-            QPoint oldoff;
+            QPoint oldCamPos;
     };
 
 }  // namespace Graphics
 
 }  // namespace WS
 
-#include "classes/level.h"
-#include "classes/tile.h"
+#include "grid.h"
 
 #endif  // GRIDSCENE_H

@@ -5,11 +5,9 @@
 #include <QPainter>
 #include <typeinfo>
 
-namespace WS {
+#include "levelelement.h"
 
-// clang-format off
-namespace Levels { struct Level; }
-// clang-format on
+namespace WS {
 
 namespace Graphics {
 
@@ -22,9 +20,9 @@ namespace Graphics {
         Down = 8,
     };
 
-    class Tile : public QGraphicsPixmapItem {
+    class Tile : public QGraphicsPixmapItem, WS::Levels::ILevelElement {
         public:
-            Tile(WS::Levels::Level* lvl);
+            Tile();
 
             QRectF boundingRect() const;
             void paint(
@@ -33,20 +31,24 @@ namespace Graphics {
                 QWidget* widget
             );
 
-            WS::Graphics::SceneSide isOffscreenFrom();
+            int& size = NULL;
+
+            SceneSide isOffscreenFrom();
 
             QPoint gridPos;
 
-            QPoint initPos;
-
         protected:
-            WS::Levels::Level* level = nullptr;
+            virtual void setupAttributes();
+
+        // ILevelElement interface
+        public:
+            virtual const QString internalName() {return "tile";}
+            virtual void setAttribute(QString name, QString value);
+            virtual QVariant getAttribute(QString name);
     };
 
 }  // namespace Graphics
 
 }  // namespace WS
-
-#include "level.h"
 
 #endif  // TILE_H

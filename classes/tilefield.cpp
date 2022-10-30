@@ -5,7 +5,7 @@ using namespace WS::Graphics;
 TileField::TileField(WS::Levels::Level* lvl) : Tile(lvl) {}
 
 QRectF TileField::boundingRect() const {
-    return QRectF(QPoint(0, 0), size * level->grid->pointSpacing);
+    return QRectF(QPoint(0, 0), size * level->grid->tileSize);
 }
 
 void TileField::paint(
@@ -14,7 +14,7 @@ void TileField::paint(
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    const int& ps = level->grid->pointSpacing;
+    const int& ps = level->grid->tileSize;
 
     /**
      * @var dx
