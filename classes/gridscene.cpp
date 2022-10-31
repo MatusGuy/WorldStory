@@ -19,16 +19,29 @@ void GridScene::draw() {
 
     if (cameraPos == oldCamPos && loopStarted) return;
 
-    QPoint bottomRight = (sceneRect().bottomRight().toPoint()/tileSize) + cameraPos;
+    //QPoint bottomRight = sceneRect().bottomRight().toPoint() + cameraPos;
 
-    qDebug() << cameraPos << bottomRight;
+    //qDebug() << cameraPos << bottomRight;
 
-    for (Tile* tile : world->capture(cameraPos-QPoint(1,1), bottomRight+QPoint(1,1))) {
-        QPoint pos = getPoint(tile->gridPos.x(),tile->gridPos.y())-cameraPos*tileSize;
-        qDebug() << pos;
+    QPoint gridCamPos;
+    gridCamPos.setX(cameraPos.x()/tileSize);
+    gridCamPos.setY(cameraPos.y()/tileSize);
+    //= cameraPos/tileSize;
+    QPoint camSize = cameraPos + sceneRect().bottomRight().toPoint();
+    QPoint offset(cameraPos.x()%tileSize, cameraPos.y()%tileSize);
+
+    //qDebug() << "camera pos:" << cameraPos;
+    //qDebug() << "ri rj:" << gridCamPos;
+    int i=0;
+    for (Tile* tile : world->capture(gridCamPos-QPoint(1,1), (camSize/tileSize)+QPoint(1,1))) {
+        //QPoint pos = getPoint(tile->gridPos.x(),tile->gridPos.y())-cameraPos*tileSize;
+        QPoint pos((tile->gridPos - gridCamPos) * tileSize - offset);
+        //qDebug() << pos;
         tile->setPos(pos);
         tile->update();
+        i++;
     }
+    qDebug() << "screen tiles:" << i;
 
     oldCamPos = cameraPos;
 }
@@ -44,19 +57,19 @@ void GridScene::keyPressEvent(QKeyEvent* event) {
     //qDebug() << "press!!!!!";
     switch (event->key()) {
         case Qt::Key_A:
-            cameraPos.rx() -= 1;
+            cameraPos.rx() -= tileSize/5;
             break;
 
         case Qt::Key_D:
-            cameraPos.rx() += 1;
+            cameraPos.rx() += tileSize/5;
             break;
 
         case Qt::Key_W:
-            cameraPos.ry() -= 1;
+            cameraPos.ry() -= tileSize/5;
             break;
 
         case Qt::Key_S:
-            cameraPos.ry() += 1;
+            cameraPos.ry() += tileSize/5;
             break;
 
         default:

@@ -5,7 +5,7 @@ using namespace WS::Core;
 Scene::Scene(QObject *parent): QGraphicsScene{parent} {
     //setBackgroundBrush(QBrush(Qt::GlobalColor::white));
     fps.setWindowTitle("fps");
-    fps.show();
+    //fps.show();
     std::time(&initTime);
     frames=0;
 }
