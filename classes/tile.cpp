@@ -20,7 +20,7 @@ void Tile::paint(
     Q_UNUSED(widget);
     Q_UNUSED(option);
 
-    //if (isOffscreenFrom() != SceneSide::None) return;
+    if (isOffscreenFrom() != SceneSide::None) return;
 
     QRectF geo = boundingRect();
     painter->drawPixmap(geo.toRect(), pixmap());

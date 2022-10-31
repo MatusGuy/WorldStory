@@ -18,7 +18,7 @@ namespace WS::Levels {
         protected:
             QStringList attributeNames;
 
-            virtual void setupAttributes() = NULL;
+            void setupAttributes();
     };
 
 }

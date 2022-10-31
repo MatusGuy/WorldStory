@@ -39,7 +39,7 @@ namespace Graphics {
             QPoint gridPos;
 
         protected:
-            virtual void setupAttributes();
+            void setupAttributes();
 
         // ILevelElement interface
         public:

@@ -82,6 +82,7 @@ void GridScene::setLevel(WS::Levels::Level* lvl) {
     for (const QMap<int, Tile*>& column : world->map())
         for (Tile* tile : column) {
             addItem(tile);
+            tile->setPos(-tileSize,-tileSize);
             tile->size = &tileSize;
         }
 
