@@ -4,8 +4,10 @@
 #include <QGraphicsScene>
 #include <QTimer>
 #include <QtDebug>
+#include <QLabel>
 
 #include <ctime>
+#include <sstream>
 
 namespace WS {
 
@@ -17,6 +19,8 @@ class Scene : public QGraphicsScene {
 
         int frames;
         std::time_t initTime;
+        QLabel fps;
+        bool loopStarted = false;
 
         public slots:
             void drawLoop();

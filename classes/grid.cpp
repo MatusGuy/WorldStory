@@ -50,6 +50,7 @@ QList<Tile*> Grid::capture(const QPoint& topLeft, const QPoint& bottomRight) {
         }
     }
 
+    qDebug() << out;
     return out;
 }
 

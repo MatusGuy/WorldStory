@@ -17,12 +17,16 @@ QPoint GridScene::getPoint(int x, int y) {
 void GridScene::draw() {
     assert(level != nullptr);
 
-    if (cameraPos == oldCamPos) return;
+    if (cameraPos == oldCamPos && loopStarted) return;
 
-    QPoint bottomRight = sceneRect().bottomRight().toPoint() + cameraPos;
+    QPoint bottomRight = (sceneRect().bottomRight().toPoint()/tileSize) + cameraPos;
 
-    for (Tile* tile : world->capture(cameraPos, bottomRight)) {
-        //tile->setPos(getPoint(tile->initPos.x(), tile->initPos.y()) - offset);
+    qDebug() << cameraPos << bottomRight;
+
+    for (Tile* tile : world->capture(cameraPos-QPoint(1,1), bottomRight+QPoint(1,1))) {
+        QPoint pos = getPoint(tile->gridPos.x(),tile->gridPos.y())-cameraPos*tileSize;
+        qDebug() << pos;
+        tile->setPos(pos);
         tile->update();
     }
 
@@ -40,11 +44,19 @@ void GridScene::keyPressEvent(QKeyEvent* event) {
     //qDebug() << "press!!!!!";
     switch (event->key()) {
         case Qt::Key_A:
-            cameraPos.rx() += 1;
+            cameraPos.rx() -= 1;
             break;
 
         case Qt::Key_D:
-            cameraPos.rx() -= 1;
+            cameraPos.rx() += 1;
+            break;
+
+        case Qt::Key_W:
+            cameraPos.ry() -= 1;
+            break;
+
+        case Qt::Key_S:
+            cameraPos.ry() += 1;
             break;
 
         default:
@@ -72,6 +84,8 @@ void GridScene::setLevel(WS::Levels::Level* lvl) {
             addItem(tile);
             tile->size = &tileSize;
         }
+
+    draw();
 }
 
 template <typename T>

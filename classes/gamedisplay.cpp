@@ -3,7 +3,7 @@
 using namespace WS::Core;
 
 GameDisplay::GameDisplay(QWidget *parent): QGraphicsView(parent) {
-    resize(600,500);
+    resize(800,450);
     #ifdef WIN32
         setWindowFlags(Qt::Window | Qt::MSWindowsFixedSizeDialogHint);
     #endif

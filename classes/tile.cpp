@@ -4,7 +4,7 @@
 using namespace WS::Graphics;
 
 Tile::Tile() : QGraphicsPixmapItem() {
-    setCacheMode(CacheMode::DeviceCoordinateCache);
+    //setCacheMode(CacheMode::DeviceCoordinateCache);
     setupAttributes();
 }
 

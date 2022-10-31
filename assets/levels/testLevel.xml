@@ -3,16 +3,19 @@
     name="test" >
 
     <tile
-        pos="5,10"
+        pos="6,5"
         img=":/test/textures/testTile.png" >
 
 
     <tile
-        pos="50,4"
+        pos="8,7"
         img=":/test/textures/testTile.png" >
 
-    <tilefield
-        pos="0,18"
-        size="60,2"
+    <tile
+        pos="13,9"
+        img=":/test/textures/testTile.png" >
+
+    <tile
+        pos="34,3"
         img=":/test/textures/testTile.png" >
 </level>
