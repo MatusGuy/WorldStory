@@ -13,6 +13,9 @@ HEADERS   += $$files(*.h,   true)
 FORMS     += $$files(*.ui,  true)
 RESOURCES += $$files(*.qrc, true)
 
+SOURCES -= classes/tilefield.cpp
+HEADERS -= classes/tilefield.h
+
 VERSION = 0.0.0.0
 QMAKE_TARGET = WorldStory
 QMAKE_TARGET_COMPANY = MatusGuy

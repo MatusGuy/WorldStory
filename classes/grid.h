@@ -6,6 +6,9 @@
 
 #include "tile.h"
 
+#include <iterator>
+#include <cstddef>
+
 namespace WS::Graphics {
 
 /**
@@ -23,25 +26,20 @@ class Grid : public QObject {
 
         /**
          * @brief Get row at @c pos
-         * @param pos row position
-         * @return Row
          */
         QMap<int, Tile*> row(int pos);
 
         /**
          * @brief Get column at @c pos
-         * @param pos column position
-         * @return Column
          */
         QMap<int, Tile*>& column(int pos);
 
         /**
-         * @brief Get all tiles inside @c zone
-         * @param zone Tile range
-         * @return Tiles within @c zone
+         * @brief Get all tiles from @c topLeft to @c bottomLeft
          */
         QList<Tile*> capture(const QPoint& topLeft, const QPoint& bottomRight);
 
+        const QMap<int, QMap<int, Tile*>>& map();
 
         /**
          * @brief Deletes grid content when calling deleting grid.

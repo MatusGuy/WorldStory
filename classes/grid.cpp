@@ -16,7 +16,6 @@ void Grid::place(int x, int y, Tile* tile) {
     if (!content.contains(x)) { // lol
         content[x] = QMap<int, Tile*>();
     }
-
     content[x][y] = tile;
 }
 Tile* Grid::get(int x, int y) {
@@ -30,8 +29,9 @@ Tile* Grid::get(int x, int y) {
 
 QMap<int, Tile*> Grid::row(int pos) {
     QMap<int, Tile*> out;
-    for (int x : content.keys()) {
-        out[x] = content[x][pos];
+    QMap<int, QMap<int, Tile*>>::iterator x;
+    for (x = content.begin(); x != content.end(); x++) {
+        out[x.key()] = x.value()[pos];
     }
     return out;
 }
@@ -51,5 +51,9 @@ QList<Tile*> Grid::capture(const QPoint& topLeft, const QPoint& bottomRight) {
     }
 
     return out;
+}
+
+const QMap<int, QMap<int, Tile*>>& Grid::map() {
+    return content;
 }
 

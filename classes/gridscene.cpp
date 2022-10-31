@@ -53,18 +53,25 @@ void GridScene::keyPressEvent(QKeyEvent* event) {
 }
 
 void GridScene::setLevel(WS::Levels::Level* lvl) {
-    if (lvl->grid != nullptr) {
-        for (Tile* tile : lvl->content) lvl->grid->removeItem(tile);
-
-        lvl->grid->level = nullptr;
-    }
+    /*
+    if (world->parent() != nullptr)
+        for (const QMap<int, Tile*>& column : world->map())
+            for (Tile* tile : column) {
+                removeItem(tile);
+                tile->size = nullptr;
+            }
+    */
 
     level = lvl;
-    level->grid = this;
-    for (Tile* tile : level->content) {
-        world->place(tile->gridPos.x(), tile->gridPos.y(), tile);
-        addItem(tile);
-    }
+
+    world = &level->content;
+    world->setParent(this);
+
+    for (const QMap<int, Tile*>& column : world->map())
+        for (Tile* tile : column) {
+            addItem(tile);
+            tile->size = &tileSize;
+        }
 }
 
 template <typename T>

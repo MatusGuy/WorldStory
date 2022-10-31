@@ -1,4 +1,5 @@
 #include "tile.h"
+#include "gridscene.h"
 
 using namespace WS::Graphics;
 
@@ -7,13 +8,8 @@ Tile::Tile() : QGraphicsPixmapItem() {
     setupAttributes();
 }
 
-void Tile::setupAttributes() {
-    attributeNames.append("pos");
-    attributeNames.append("img");
-}
-
 QRectF Tile::boundingRect() const {
-    return QRectF(0, 0, size, size);
+    return QRectF(0, 0, *size, *size);
 }
 
 void Tile::paint(
@@ -34,7 +30,7 @@ void Tile::paint(
 
 SceneSide Tile::isOffscreenFrom() {
     int out = SceneSide::None;
-    QRect sceneRect = level->grid->sceneRect().toRect();
+    QRect sceneRect = scene()->sceneRect().toRect();
 
     if (x() > sceneRect.right()) out |= SceneSide::Right;
     if (y() > sceneRect.bottom()) out |= SceneSide::Down;
@@ -50,9 +46,14 @@ SceneSide Tile::isOffscreenFrom() {
     return (SceneSide)out;
 }
 
+void Tile::setupAttributes() {
+    attributeNames.append("pos");
+    attributeNames.append("img");
+}
+
 void Tile::setAttribute(QString name, QString value) {
     switch (attributeNames.indexOf(name)) {
-        case -1: qCritical << "attribute " + name + " not found";
+        case -1: qCritical() << "attribute " + name + " not found";
 
         // pos
         case 0: {
@@ -67,4 +68,18 @@ void Tile::setAttribute(QString name, QString value) {
             setPixmap(QPixmap(value));
             break;
     }
+}
+
+QVariant Tile::getAttribute(QString name) {
+    switch (attributeNames.indexOf(name)) {
+        case -1: qCritical() << "attribute " + name + " not found";
+
+        // pos
+        case 0: return QVariant(gridPos);
+
+        // img
+        case 1: return QVariant((uint) *pixmap().toImage().bits());
+    }
+
+    return QVariant();
 }

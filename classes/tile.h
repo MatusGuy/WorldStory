@@ -2,6 +2,7 @@
 #define TILE_H
 
 #include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
 #include <QPainter>
 #include <typeinfo>
 
@@ -31,9 +32,9 @@ namespace Graphics {
                 QWidget* widget
             );
 
-            int& size = NULL;
-
             SceneSide isOffscreenFrom();
+
+            int* size;
 
             QPoint gridPos;
 
