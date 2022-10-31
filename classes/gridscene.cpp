@@ -32,16 +32,16 @@ void GridScene::draw() {
 
     //qDebug() << "camera pos:" << cameraPos;
     //qDebug() << "ri rj:" << gridCamPos;
-    int i=0;
+    //int i=0;
     for (Tile* tile : world->capture(gridCamPos-QPoint(1,1), (camSize/tileSize)+QPoint(1,1))) {
         //QPoint pos = getPoint(tile->gridPos.x(),tile->gridPos.y())-cameraPos*tileSize;
         QPoint pos((tile->gridPos - gridCamPos) * tileSize - offset);
         //qDebug() << pos;
         tile->setPos(pos);
         tile->update();
-        i++;
+        //i++;
     }
-    qDebug() << "screen tiles:" << i;
+    //qDebug() << "screen tiles:" << i;
 
     oldCamPos = cameraPos;
 }

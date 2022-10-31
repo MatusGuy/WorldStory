@@ -10,11 +10,10 @@ GameDisplay::GameDisplay(QWidget *parent): QGraphicsView(parent) {
     setMaximumSize(size());
     setMinimumSize(size());
 
-    QOpenGLWidget* gl = new QOpenGLWidget(this);
     QSurfaceFormat format;
     format.setSamples(4);
-    gl->setFormat(format);
-    setViewport(gl);
+    glWidget.setFormat(format);
+    setViewport(&glWidget);
 
     setFrameShape(Shape::NoFrame);
     setFocusPolicy(Qt::FocusPolicy::StrongFocus);

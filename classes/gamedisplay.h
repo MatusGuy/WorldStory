@@ -15,6 +15,9 @@ class GameDisplay : public QGraphicsView {
         ~GameDisplay();
 
         void setScene(QGraphicsScene* scene);
+
+    private:
+        QOpenGLWidget glWidget;
 };
 
 }
