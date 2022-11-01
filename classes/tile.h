@@ -34,7 +34,7 @@ namespace Graphics {
 
             SceneSide isOffscreenFrom();
 
-            int* size;
+            int size;
 
             QPoint gridPos;
 

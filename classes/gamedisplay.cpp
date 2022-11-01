@@ -10,6 +10,9 @@ GameDisplay::GameDisplay(QWidget *parent): QGraphicsView(parent) {
     setMaximumSize(size());
     setMinimumSize(size());
 
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     QSurfaceFormat format;
     format.setSamples(4);
     glWidget.setFormat(format);

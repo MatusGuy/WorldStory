@@ -9,7 +9,7 @@ Tile::Tile() : QGraphicsPixmapItem() {
 }
 
 QRectF Tile::boundingRect() const {
-    return QRectF(0, 0, *size, *size);
+    return QRectF(0, 0, size, size);
 }
 
 void Tile::paint(

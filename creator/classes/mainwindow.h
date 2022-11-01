@@ -2,7 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "creator/classes/viewport.h"
+#include <QFileDialog>
+
+#include <classes/level.h>
+
+#include "viewport.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,10 +21,26 @@ class MainWindow : public QMainWindow {
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
 
+        void loadFile(QFile* f);
+        void loadLevel(WS::Levels::Level* lvl);
+        void unloadLevel();
+        WS::Levels::Level* loadedLevel();
+
         WS::Creator::Viewport viewport;
 
+        public slots:
+            void chooseFile();
+
+    protected:
+        void keyPressEvent(QKeyEvent* event);
+
     private:
+        WS::Levels::Level* level;
+        QFile* file;
+        QString openDir;
+
         Ui::MainWindow* ui;
+
 };
 
 }

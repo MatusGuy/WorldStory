@@ -24,6 +24,10 @@ QMenu {
     border-top-left-radius: 0px;
 }
 
+QMenu::separator {
+    color: gray;
+}
+
 QMenuBar {
     border: 1px solid gray;
     border-bottom-left-radius: 5px;
@@ -42,4 +46,61 @@ QMenu::seperator {
 QMenuBar::item:selected {
     background-color: qlineargradient(x1:0,x2:0,y1:0,y2:1,stop: 0 #003789, stop: 1 #174EA1);
     margin-bottom: 3px;
+}
+
+QToolBar {
+    border: 1px solid gray;
+}
+
+QToolBar:first:top {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+QToolBar:first:bottom {
+    border-top-left-radius: 5px;
+}
+
+QToolBar:first:left {
+    border-top-right-radius: 5px;
+}
+
+QToolBar:first:right {
+    border-top-left-radius: 5px;
+}
+
+QToolBar:last:top {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+QToolBar:last:bottom {
+    border-top-right-radius: 5px;
+}
+
+QToolBar:last:left {
+    border-bottom-right-radius: 5px;
+}
+
+QToolBar:last:right {
+    border-bottom-left-radius: 5px;
+}
+
+QToolBar:only-one {
+    border-radius: 5px;
+}
+
+QToolBar:only-one:bottom {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+QToolBar:only-one:left {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+QToolBar:only-one:right {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }

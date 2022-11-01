@@ -37,6 +37,8 @@ void GridScene::draw() {
         //QPoint pos = getPoint(tile->gridPos.x(),tile->gridPos.y())-cameraPos*tileSize;
         QPoint pos((tile->gridPos - gridCamPos) * tileSize - offset);
         //qDebug() << pos;
+        tile->hide();
+        tile->show();
         tile->setPos(pos);
         tile->update();
         //i++;
@@ -96,7 +98,7 @@ void GridScene::setLevel(WS::Levels::Level* lvl) {
         for (Tile* tile : column) {
             addItem(tile);
             tile->setPos(-tileSize,-tileSize);
-            tile->size = &tileSize;
+            tile->size = tileSize;
         }
 
     draw();

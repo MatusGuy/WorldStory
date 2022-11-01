@@ -47,6 +47,7 @@ int launchCreator() {
     applyStyle(":/creator/style/appstyle.qss");
 
     WS::Creator::MainWindow w;
+    QApplication::setActiveWindow((QWidget*) &w);
     w.show();
 
     return QApplication::exec();
@@ -54,7 +55,15 @@ int launchCreator() {
 
 int launchCreator(QFile levelFile) {
     // later adding code for loading level file on main window class
-    return launchCreator();
+    QApplication::setStyle("Fusion");
+    applyStyle(":/creator/style/appstyle.qss");
+
+    WS::Creator::MainWindow w;
+    w.loadFile(&levelFile);
+    QApplication::setActiveWindow((QWidget*) &w);
+    w.show();
+
+    return QApplication::exec();
 }
 
 }  // namespace WS::Core
