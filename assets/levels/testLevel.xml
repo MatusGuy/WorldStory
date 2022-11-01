@@ -3,46 +3,46 @@
     name="test" >
 
     <tile
+        pos="0,6"
+        img=":/test/textures/testTile.png" >
+
+    <tile
+        pos="1,6"
+        img=":/test/textures/testTile.png" >
+
+    <tile
+        pos="2,6"
+        img=":/test/textures/testTile.png" >
+
+    <tile
+        pos="3,6"
+        img=":/test/textures/testTile.png" >
+
+    <tile
+        pos="4,6"
+        img=":/test/textures/testTile.png" >
+
+    <tile
+        pos="5,6"
+        img=":/test/textures/testTile.png" >
+
+    <tile
         pos="6,6"
         img=":/test/textures/testTile.png" >
 
     <tile
-        pos="7,7"
+        pos="7,6"
         img=":/test/textures/testTile.png" >
 
     <tile
-        pos="8,8"
+        pos="8,6"
         img=":/test/textures/testTile.png" >
 
     <tile
-        pos="9,9"
+        pos="9,6"
         img=":/test/textures/testTile.png" >
 
     <tile
-        pos="10,10"
-        img=":/test/textures/testTile.png" >
-
-    <tile
-        pos="11,11"
-        img=":/test/textures/testTile.png" >
-
-    <tile
-        pos="12,12"
-        img=":/test/textures/testTile.png" >
-
-    <tile
-        pos="13,13"
-        img=":/test/textures/testTile.png" >
-
-    <tile
-        pos="14,14"
-        img=":/test/textures/testTile.png" >
-
-    <tile
-        pos="15,15"
-        img=":/test/textures/testTile.png" >
-
-    <tile
-        pos="16,16"
+        pos="10,6"
         img=":/test/textures/testTile.png" >
 </level>
