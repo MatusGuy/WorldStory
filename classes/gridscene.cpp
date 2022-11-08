@@ -3,7 +3,7 @@
 using namespace WS::Graphics;
 
 GridScene::GridScene(QObject* parent) : WS::Core::Scene(parent) {
-    //world = new Grid(this);
+    world = nullptr;
 }
 
 GridScene::~GridScene() {
