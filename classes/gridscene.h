@@ -55,6 +55,7 @@ namespace Graphics {
             WS::Levels::Level* level = nullptr;
 
             void addItem(QGraphicsItem* item);
+            void addTile(Tile* tile);
 
             template <typename T>
             static QList<T> cropListFromRange(QList<T>* list, int a, int b);

@@ -3,8 +3,9 @@
 using namespace WS::Creator;
 
 Cursor::Cursor() {
-    highlightBrush.setColor(QColor(255, 240, 0, 115));
-    cornerBrush.setColor(QColor(255, 240, 0));
+    highlightPen.setColor(QColor(255, 240, 0, 70));
+    cornerPen.setColor(QColor(255, 240, 0));
+    cornerPen.setWidth(3);
 }
 
 void Cursor::paint(
@@ -15,12 +16,13 @@ void Cursor::paint(
     Q_UNUSED(option)
     Q_UNUSED(widget)
 
-    painter->setBrush(highlightBrush);
+    painter->setPen(highlightPen);
 
     QRectF geo = boundingRect();
     painter->drawRect(geo);
+    painter->fillRect(geo, highlightPen.color());
 
-    painter->setBrush(cornerBrush);
+    painter->setPen(cornerPen);
 
     int lineLimit = size/3;
 
@@ -29,14 +31,14 @@ void Cursor::paint(
     painter->drawLine(0,0,0,lineLimit); // ver
 
     // top right
-    painter->drawLine(1,0,1-lineLimit,0); // hor
-    painter->drawLine(1,0,1,lineLimit); // ver
+    painter->drawLine(size,0,size-lineLimit,0); // hor
+    painter->drawLine(size,0,size,lineLimit); // ver
 
     // bottom left
-    painter->drawLine(0,1,lineLimit,1); // hor
-    painter->drawLine(0,1,0,1-lineLimit); // ver
+    painter->drawLine(0,size,lineLimit,size); // hor
+    painter->drawLine(0,size,0,size-lineLimit); // ver
 
     // bottom right
-    painter->drawLine(1,1,1-lineLimit,1); // hor
-    painter->drawLine(1,1,1,1-lineLimit); // ver
+    painter->drawLine(size,size,size-lineLimit,size); // hor
+    painter->drawLine(size,size,size,size-lineLimit); // ver
 }

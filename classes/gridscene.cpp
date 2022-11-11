@@ -53,6 +53,12 @@ void GridScene::addItem(QGraphicsItem* item) {
     //qDebug() << "new" << item->pos() << item->boundingRect().bottomRight();
 }
 
+void GridScene::addTile(Tile* tile) {
+    addItem(tile);
+    tile->setPos(-tileSize, -tileSize);
+    tile->size = tileSize;
+}
+
 void GridScene::keyPressEvent(QKeyEvent* event) {
     //qDebug() << "press!!!!!";
     switch (event->key()) {

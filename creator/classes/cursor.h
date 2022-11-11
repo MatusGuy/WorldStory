@@ -17,8 +17,8 @@ class Cursor : public WS::Graphics::Tile {
         );
 
     protected:
-        QBrush highlightBrush;
-        QBrush cornerBrush;
+        QPen highlightPen;
+        QPen cornerPen;
 };
 
 }

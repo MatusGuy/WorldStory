@@ -1,6 +1,8 @@
 #ifndef EDITORSCENE_H
 #define EDITORSCENE_H
 
+#include <QGraphicsSceneMouseEvent>
+
 #include <classes/gridscene.h>
 
 #include "cursor.h"
@@ -15,6 +17,8 @@ class EditorScene : public WS::Graphics::GridScene {
 
     protected:
         void keyPressEvent(QKeyEvent* event) {Q_UNUSED(event)}
+
+        void mousePressEvent(QGraphicsSceneMouseEvent* event);
 
         protected slots:
             void draw();
