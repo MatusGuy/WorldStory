@@ -37,8 +37,6 @@ void GridScene::draw() {
         //QPoint pos = getPoint(tile->gridPos.x(),tile->gridPos.y())-cameraPos*tileSize;
         QPoint pos((tile->gridPos - gridCamPos) * tileSize - offset);
         //qDebug() << pos;
-        tile->hide();
-        tile->show();
         tile->setPos(pos);
         tile->update();
         //i++;

@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 }
 
 MainWindow::~MainWindow() {
-    unloadLevel();
+    if (level != nullptr) unloadLevel();
     delete ui;
 }
 
