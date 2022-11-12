@@ -47,12 +47,17 @@ namespace Graphics {
             int tileSize = 25;
 
             QPoint cameraPos;
+            QPoint camGridPos();
+            QPoint camBottomRight();
+            QPoint camGridOffset();
 
             Grid* world;
 
             void setLevel(WS::Levels::Level* lvl);
 
             WS::Levels::Level* level = nullptr;
+
+            
 
             void addItem(QGraphicsItem* item);
             void addTile(Tile* tile);
@@ -73,6 +78,7 @@ namespace Graphics {
 
         protected:
             void keyPressEvent(QKeyEvent* event);
+            void drawAllTiles();
 
         protected slots:
             void draw();

@@ -20,8 +20,7 @@ class EditorScene : public WS::Graphics::GridScene {
 
         void mousePressEvent(QGraphicsSceneMouseEvent* event);
 
-        protected slots:
-            void draw();
+        void drawAllTiles();
 
 };
 

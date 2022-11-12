@@ -19,31 +19,42 @@ void GridScene::draw() {
 
     if (cameraPos == oldCamPos && loopStarted) return;
 
+    drawAllTiles();
+
+    oldCamPos = cameraPos;
+}
+
+QPoint GridScene::camGridPos() {
+    return QPoint(cameraPos.x() / tileSize, cameraPos.y() / tileSize);
+}
+
+QPoint GridScene::camBottomRight() {
+    return cameraPos + sceneRect().bottomRight().toPoint();
+}
+
+QPoint GridScene::camGridOffset() {
+    return QPoint(cameraPos.x() % tileSize, cameraPos.y() % tileSize);
+}
+
+void GridScene::drawAllTiles() {
     //QPoint bottomRight = sceneRect().bottomRight().toPoint() + cameraPos;
 
     //qDebug() << cameraPos << bottomRight;
 
-    QPoint gridCamPos;
-    gridCamPos.setX(cameraPos.x()/tileSize);
-    gridCamPos.setY(cameraPos.y()/tileSize);
-    //= cameraPos/tileSize;
-    QPoint camSize = cameraPos + sceneRect().bottomRight().toPoint();
-    QPoint offset(cameraPos.x()%tileSize, cameraPos.y()%tileSize);
+    QPoint gridCamPos = camGridPos();
 
     //qDebug() << "camera pos:" << cameraPos;
     //qDebug() << "ri rj:" << gridCamPos;
     //int i=0;
-    for (Tile* tile : world->capture(gridCamPos-QPoint(1,1), (camSize/tileSize)+QPoint(1,1))) {
+    for (Tile* tile : world->capture(gridCamPos - QPoint(1, 1), (camBottomRight() / tileSize) + QPoint(1, 1))) {
         //QPoint pos = getPoint(tile->gridPos.x(),tile->gridPos.y())-cameraPos*tileSize;
-        QPoint pos((tile->gridPos - gridCamPos) * tileSize - offset);
+        QPoint pos((tile->gridPos - gridCamPos) * tileSize - camGridOffset());
         //qDebug() << pos;
         tile->setPos(pos);
         tile->update();
         //i++;
     }
     //qDebug() << "screen tiles:" << i;
-
-    oldCamPos = cameraPos;
 }
 
 void GridScene::addItem(QGraphicsItem* item) {
@@ -99,11 +110,7 @@ void GridScene::setLevel(WS::Levels::Level* lvl) {
     world->setParent(this);
 
     for (const QMap<int, Tile*>& column : world->map())
-        for (Tile* tile : column) {
-            addItem(tile);
-            tile->setPos(-tileSize,-tileSize);
-            tile->size = tileSize;
-        }
+        for (Tile* tile : column) addTile(tile);
 
     draw();
 }
