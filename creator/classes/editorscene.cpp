@@ -9,10 +9,12 @@ EditorScene::EditorScene(QObject *parent): WS::Graphics::GridScene{parent} {
 }
 
 void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    QPoint curPos = event->scenePos().toPoint();
+    QPoint curPos = cameraPos + event->scenePos().toPoint();
     //cursor.setPos(qFloor<int>(curPos.x() / tileSize)*tileSize, qFloor<int>(curPos.y() / tileSize)*tileSize);
-    cursor.gridPos = curPos / tileSize;
-    qDebug() << curPos << cursor.pos();
+    cursor.gridPos.setX(curPos.x() / tileSize);
+    cursor.gridPos.setY(curPos.y() / tileSize);
+    drawAllTiles();
+    qDebug() << curPos << cursor.gridPos;
     WS::Graphics::GridScene::mousePressEvent(event);
 }
 
@@ -33,8 +35,10 @@ void EditorScene::drawAllTiles() {
         tile->setPos(pos);
         tile->update();
 
-
-        cursor.update();
+        if (tile->gridPos == cursor.gridPos) {
+            cursor.setPos(pos);
+            cursor.update();
+        }
 
         //i++;
     }

@@ -78,7 +78,7 @@ namespace Graphics {
 
         protected:
             void keyPressEvent(QKeyEvent* event);
-            void drawAllTiles();
+            virtual void drawAllTiles();
 
         protected slots:
             void draw();
