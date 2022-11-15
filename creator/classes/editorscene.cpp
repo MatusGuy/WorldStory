@@ -24,6 +24,7 @@ void EditorScene::drawAllTiles() {
     //qDebug() << cameraPos << bottomRight;
 
     QPoint gridCamPos = camGridPos();
+    bool cursorPointsToTile = false;
 
     //qDebug() << "camera pos:" << cameraPos;
     //qDebug() << "ri rj:" << gridCamPos;
@@ -36,12 +37,17 @@ void EditorScene::drawAllTiles() {
         tile->update();
 
         if (tile->gridPos == cursor.gridPos) {
+            cursorPointsToTile = true;
+            cursor.show();
             cursor.setPos(pos);
             cursor.update();
         }
 
         //i++;
     }
+
+    if (!cursorPointsToTile) cursor.hide();
+
     //qDebug() << "screen tiles:" << i;
 }
 
