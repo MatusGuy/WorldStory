@@ -53,7 +53,7 @@ int launchCreator() {
     return QApplication::exec();
 }
 
-int launchCreator(QFile levelFile) {
+int launchCreator(QFile& levelFile) {
     // later adding code for loading level file on main window class
     QApplication::setStyle("Fusion");
     applyStyle(":/creator/style/appstyle.qss");
@@ -89,12 +89,15 @@ int main(int argc, char* argv[]) {
 
     cli.process(a);
 
+
     if (cli.isSet(creatorOption)) {
         QString levelFile = cli.value(creatorOption);
         if (levelFile == "none")
             return WS::Core::launchCreator();
-        else
-            return WS::Core::launchCreator(QFile(levelFile));
+        else {
+            QFile file(levelFile);
+            return WS::Core::launchCreator(file);
+        }
     } else
         return WS::Core::launchGame();
 }

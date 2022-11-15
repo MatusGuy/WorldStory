@@ -10,11 +10,11 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
         }
     } else levelFile->open(QFile::ReadOnly);
 
-    QXmlStreamReader reader(levelFile);
+    xmlReader.setDevice(levelFile);
 
-    if (reader.readNextStartElement()) {
-        if (reader.name().toString() != "level") {
-            reader.raiseError("token missing: level");
+    if (xmlReader.readNextStartElement()) {
+        if (xmlReader.name().toString() != "level") {
+            xmlReader.raiseError("token missing: level");
             return nullptr;
         }
 
@@ -25,7 +25,7 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
         //QStringList tileAtts = QStringList() << "pos" << "img" << "size";
 
 
-        for (const QXmlStreamAttribute& lvlAtt : reader.attributes()) {
+        for (const QXmlStreamAttribute& lvlAtt : xmlReader.attributes()) {
             switch (lvlAtts.indexOf(lvlAtt.name())) {
                 case 0: // name
                     out->name = lvlAtt.value().toString();
@@ -35,13 +35,13 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
             }
         }
 
-        while (reader.readNextStartElement()) {
-            QString name = reader.name().toString();
+        while (xmlReader.readNextStartElement()) {
+            QString name = xmlReader.name().toString();
             // TODO: Optimize
             switch (tileNames.indexOf(name)) {
                 case -1: { // unknown
                     if (tileNames.indexOf(name) != -1) {
-                        reader.raiseError("unknown token: "+name);
+                        xmlReader.raiseError("unknown token: "+name);
                         delete out;
                         return nullptr;
                     }
@@ -50,7 +50,7 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
                 case 0: { // tile
                     WS::Graphics::Tile* newTile = new WS::Graphics::Tile();
 
-                    for (const QXmlStreamAttribute& lvlAtt : reader.attributes()) {
+                    for (const QXmlStreamAttribute& lvlAtt : xmlReader.attributes()) {
                         /*
                         switch (tileAtts.indexOf(lvlAtt.name())) {
                             case 0: { // pos
@@ -87,7 +87,7 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
                 case 1: { // tile field
                     WS::Graphics::TileField* newTile = new WS::Graphics::TileField(out);
 
-                    for (const QXmlStreamAttribute& lvlAtt : reader.attributes()) {
+                    for (const QXmlStreamAttribute& lvlAtt : xmlReader.attributes()) {
                         switch (tileAtts.indexOf(lvlAtt.name())) {
                             case 0: { // pos
                                 QStringList pos = lvlAtt.value().toString().split(',');
@@ -122,7 +122,7 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
 
         return out;
     } else {
-        reader.raiseError("no tokens found");
+        xmlReader.raiseError("no tokens found");
         return nullptr;
     }
 }

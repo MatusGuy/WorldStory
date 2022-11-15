@@ -63,9 +63,27 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
 }
 
 void MainWindow::loadFile(QFile* f) {
+    Levels::Level* level = WS::Levels::loadLevel(f);
+
+    if (level == nullptr) {
+        QString err =
+            "An error has occured while loading the chosenlevel file"
+            "\n\nFile: %1"
+            "\nError: %2 (%3)";
+        err = err.arg(f->fileName(), Levels::xmlReader.errorString(), QString::number((int)Levels::xmlReader.error()));
+        QMessageBox::critical(
+            this,
+            "Error occured loading level!",
+            err,
+            QMessageBox::StandardButton::Ok
+        );
+        return;
+    }
+
     file = f;
     openDir = QFileInfo(file->fileName()).dir().path();
-    loadLevel(WS::Levels::loadLevel(file));
+
+    loadLevel(level);
 }
 
 void MainWindow::loadLevel(Levels::Level* lvl) {

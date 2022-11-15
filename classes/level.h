@@ -9,7 +9,10 @@
 
 #include "grid.h"
 
+#define global __declspec(selectany)
+
 namespace WS::Levels {
+    global QXmlStreamReader xmlReader;
 
     struct Level {
 
