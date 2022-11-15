@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     openDir = QDir::homePath();
 
     level = nullptr;
+    file = nullptr;
 }
 
 MainWindow::~MainWindow() {
@@ -39,7 +40,7 @@ void MainWindow::chooseFile() {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event) {
-    qDebug() << "pressed";
+    //qDebug() << "pressed";
     switch (event->key()) {
         case Qt::Key_A:
             viewport.editorScene.cameraPos.rx() -= 5;
@@ -98,7 +99,8 @@ void MainWindow::loadLevel(Levels::Level* lvl) {
 void MainWindow::unloadLevel() {
     setWindowTitle("WorldStoryCreator");
     delete level;
-    delete file;
+    file = nullptr;
+    //delete file;
 }
 
 WS::Levels::Level* MainWindow::loadedLevel() {
