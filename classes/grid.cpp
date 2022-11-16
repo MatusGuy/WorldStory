@@ -16,6 +16,8 @@ void Grid::place(int x, int y, Tile* tile) {
     if (!content.contains(x)) { // lol
         content[x] = QMap<int, Tile*>();
     }
+
+    emit tileChanged(content[x][y], tile);
     content[x][y] = tile;
 }
 

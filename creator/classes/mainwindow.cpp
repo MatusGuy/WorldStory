@@ -17,6 +17,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
         this, &MainWindow::chooseFile
     );
 
+    connect(
+        ui->A_Delete, &QAction::triggered, [this]() {
+            this->viewport.editorScene.world->place(this->viewport.editorScene.cursor.gridPos, nullptr);
+        }
+    );
+
     openDir = QDir::homePath();
 
     level = nullptr;

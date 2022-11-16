@@ -5,7 +5,14 @@ using WS::Graphics::Tile;
 
 EditorScene::EditorScene(QObject *parent) : WS::Graphics::GridScene{parent} {
     addTile(&cursor);
-    cursor.setZValue(2);
+}
+
+void EditorScene::setLevel(Levels::Level *lvl) {
+    WS::Graphics::GridScene::setLevel(lvl);
+
+    connect(
+        world, &WS::Graphics::Grid::tileChanged, this, &EditorScene::deleteTileCallback
+    );
 }
 
 void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
@@ -49,4 +56,16 @@ void EditorScene::drawAllTiles() {
     if (!cursorIsSelecting) cursor.unselect();
 
     //qDebug() << "screen tiles:" << i;
+}
+
+void EditorScene::deleteTileCallback(Tile *oldTile, Tile *newTile) {
+    qDebug() << "delete";
+    if (newTile == nullptr) {
+        oldTile->hide();
+        cursor.unselect();
+        cursor.gridPos *= 0; // lmfao
+        removeItem(oldTile);
+        drawAllTiles();
+        delete oldTile;
+    }
 }

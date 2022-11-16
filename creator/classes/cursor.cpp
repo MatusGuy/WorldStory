@@ -3,6 +3,9 @@
 using namespace WS::Creator;
 
 Cursor::Cursor() {
+    setZValue(2);
+    unselect();
+
     highlightPen.setColor(QColor(255, 240, 0, 70));
     cornerPen.setColor(QColor(255, 240, 0));
     cornerPen.setWidth(3);
@@ -23,6 +26,7 @@ void Cursor::select(Tile* tile) {
 void Cursor::unselect() {
     selecting = nullptr;
     hide();
+    update();
 }
 
 void Cursor::paint(

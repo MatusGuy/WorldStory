@@ -10,8 +10,12 @@
 namespace WS::Creator {
 
 class EditorScene : public WS::Graphics::GridScene {
+    Q_OBJECT
+
     public:
         explicit EditorScene(QObject *parent = nullptr);
+
+        void setLevel(WS::Levels::Level* lvl);
 
         Cursor cursor;
 
@@ -22,6 +26,8 @@ class EditorScene : public WS::Graphics::GridScene {
 
         void drawAllTiles();
 
+        protected slots:
+        void deleteTileCallback(Tile *oldTile, Tile *newTile);
 };
 
 }

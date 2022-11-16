@@ -50,6 +50,7 @@ class Grid : public QObject {
         bool clearOnDestruction = true;
 
     signals:
+        void tileChanged(Tile* oldTile, Tile* newTile);
 
     private:
         QMap<int, QMap<int, Tile*>> content;
