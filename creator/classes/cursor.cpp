@@ -8,6 +8,18 @@ Cursor::Cursor() {
     cornerPen.setWidth(3);
 }
 
+void Cursor::select(Tile* tile) {
+    selecting = tile;
+    show();
+    setPos(tile->pos());
+    update();
+}
+
+void Cursor::unselect() {
+    selecting = nullptr;
+    hide();
+}
+
 void Cursor::paint(
     QPainter* painter,
     const QStyleOptionGraphicsItem* option,

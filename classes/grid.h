@@ -22,7 +22,10 @@ class Grid : public QObject {
         ~Grid();
 
         void place(int x, int y, Tile* tile);
+        void place(QPoint& pos, Tile* tile);
+
         Tile* get(int x, int y);
+        Tile* get(QPoint& pos);
 
         /**
          * @brief Get row at @c pos

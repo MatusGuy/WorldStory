@@ -5,10 +5,17 @@
 
 namespace WS::Creator {
 
-class Cursor : public WS::Graphics::Tile {
+using WS::Graphics::Tile;
+
+class Cursor : public Tile {
 
     public:
         Cursor();
+
+        Tile* selecting = nullptr;
+
+        void select(Tile* tile);
+        void unselect();
 
         void paint(
             QPainter* painter,

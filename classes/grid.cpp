@@ -18,6 +18,11 @@ void Grid::place(int x, int y, Tile* tile) {
     }
     content[x][y] = tile;
 }
+
+void Grid::place(QPoint& pos, Tile* tile) {
+    return place(pos.x(), pos.y(), tile);
+}
+
 Tile* Grid::get(int x, int y) {
     if (!content.contains(x)) return nullptr;
 
@@ -25,6 +30,10 @@ Tile* Grid::get(int x, int y) {
     if (!column.contains(y)) return nullptr;
 
     return column[y];
+}
+
+Tile* Grid::get(QPoint& pos) {
+    return get(pos.x(), pos.y());
 }
 
 QMap<int, Tile*> Grid::row(int pos) {

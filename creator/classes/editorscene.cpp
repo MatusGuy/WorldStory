@@ -3,7 +3,7 @@
 using namespace WS::Creator;
 using WS::Graphics::Tile;
 
-EditorScene::EditorScene(QObject *parent): WS::Graphics::GridScene{parent} {
+EditorScene::EditorScene(QObject *parent) : WS::Graphics::GridScene{parent} {
     addTile(&cursor);
     cursor.setZValue(2);
 }
@@ -13,7 +13,7 @@ void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     //cursor.setPos(qFloor<int>(curPos.x() / tileSize)*tileSize, qFloor<int>(curPos.y() / tileSize)*tileSize);
     cursor.gridPos.setX(curPos.x() / tileSize);
     cursor.gridPos.setY(curPos.y() / tileSize);
-    drawAllTiles();
+    cursor.select(world->get(cursor.gridPos));
     qDebug() << curPos << cursor.gridPos;
     WS::Graphics::GridScene::mousePressEvent(event);
 }
@@ -24,7 +24,7 @@ void EditorScene::drawAllTiles() {
     //qDebug() << cameraPos << bottomRight;
 
     QPoint gridCamPos = camGridPos();
-    bool cursorPointsToTile = false;
+    bool cursorIsSelecting = false;
 
     //qDebug() << "camera pos:" << cameraPos;
     //qDebug() << "ri rj:" << gridCamPos;
@@ -36,18 +36,15 @@ void EditorScene::drawAllTiles() {
         tile->setPos(pos);
         tile->update();
 
-        if (tile->gridPos == cursor.gridPos) {
-            cursorPointsToTile = true;
-            cursor.show();
-            cursor.setPos(pos);
-            cursor.update();
+        if ((tile->gridPos == cursor.gridPos) && !cursorIsSelecting) {
+            cursorIsSelecting = true;
+            cursor.select(tile);
         }
 
         //i++;
     }
 
-    if (!cursorPointsToTile) cursor.hide();
+    if (!cursorIsSelecting) cursor.unselect();
 
     //qDebug() << "screen tiles:" << i;
 }
-
