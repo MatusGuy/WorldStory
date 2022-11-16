@@ -9,6 +9,11 @@ Cursor::Cursor() {
 }
 
 void Cursor::select(Tile* tile) {
+    if (tile == nullptr) {
+        unselect();
+        return;
+    }
+
     selecting = tile;
     show();
     setPos(tile->pos());

@@ -13,7 +13,9 @@ void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     //cursor.setPos(qFloor<int>(curPos.x() / tileSize)*tileSize, qFloor<int>(curPos.y() / tileSize)*tileSize);
     cursor.gridPos.setX(curPos.x() / tileSize);
     cursor.gridPos.setY(curPos.y() / tileSize);
+
     cursor.select(world->get(cursor.gridPos));
+
     qDebug() << curPos << cursor.gridPos;
     WS::Graphics::GridScene::mousePressEvent(event);
 }
