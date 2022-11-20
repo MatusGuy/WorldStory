@@ -61,6 +61,7 @@ Thumbs.db
 release/
 debug/
 .vs/
+resource.h
 
 # MinGW generated files
 *.Debug
