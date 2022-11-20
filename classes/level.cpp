@@ -68,6 +68,7 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
                             default: break;
                         }
                         */
+
                         newTile->setAttribute(
                             lvlAtt.name().toString(),
                             lvlAtt.value().toString()
@@ -116,6 +117,9 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
                 }
                 */
             }
+
+            if (xmlReader.readNext() != QXmlStreamReader::EndElement)
+                xmlReader.raiseError("probably forgot to close token");
         }
 
         levelFile->close();
