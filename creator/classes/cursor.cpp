@@ -11,20 +11,26 @@ Cursor::Cursor() {
     cornerPen.setWidth(3);
 }
 
+Tile* Cursor::selecting() {
+    return _selecting;
+}
+
 void Cursor::select(Tile* tile) {
     if (tile == nullptr) {
         unselect();
         return;
     }
 
-    selecting = tile;
+    _selecting = tile;
+    emit selectionChanged();
     show();
     setPos(tile->pos());
     update();
 }
 
 void Cursor::unselect() {
-    selecting = nullptr;
+    _selecting = nullptr;
+    emit selectionChanged();
     hide();
     update();
 }

@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QTreeWidgetItem>
+#include <QSpinBox>
 
 #include <classes/level.h>
 
@@ -41,6 +43,8 @@ class MainWindow : public QMainWindow {
         QString openDir;
 
         Ui::MainWindow* ui;
+
+        QTreeWidgetItem* getAttributeEditorCells(QTreeWidget* treeWidget, QString name, QVariant& value);
 
 };
 

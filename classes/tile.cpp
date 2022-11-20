@@ -3,7 +3,7 @@
 
 using namespace WS::Graphics;
 
-Tile::Tile() : QGraphicsPixmapItem() {
+Tile::Tile() : QGraphicsObject() {
     //setCacheMode(CacheMode::DeviceCoordinateCache);
     setupAttributes();
 }
@@ -23,9 +23,10 @@ void Tile::paint(
     if (isOffscreenFrom() != SceneSide::None) return;
 
     QRectF geo = boundingRect();
+
     painter->drawPixmap(geo.toRect(), pixmap());
 
-    //QGraphicsPixmapItem::paint(painter, option, widget);
+    //QGraphicsObject::paint(painter, option, widget);
 }
 
 SceneSide Tile::isOffscreenFrom() {
@@ -64,9 +65,10 @@ void Tile::setAttribute(QString name, QString value) {
         }
 
         // img
-        case 1:
-            setPixmap(QPixmap(value));
+        case 1: {
+            setPixmap(QUrl::fromLocalFile(value));
             break;
+        }
     }
 }
 
@@ -78,7 +80,7 @@ QVariant Tile::getAttribute(QString name) {
         case 0: return QVariant(gridPos);
 
         // img
-        case 1: return QVariant((uint) *pixmap().toImage().bits());
+        case 1: return QVariant(pixUrl);
     }
 
     return QVariant();

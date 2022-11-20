@@ -1,10 +1,10 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include <QGraphicsPixmapItem>
-#include <QGraphicsScene>
+#include <QGraphicsObject>
+#include <QPixmap>
+#include <QUrl>
 #include <QPainter>
-#include <typeinfo>
 
 #include "levelelement.h"
 
@@ -21,7 +21,8 @@ namespace Graphics {
         Down = 8,
     };
 
-    class Tile : public QGraphicsPixmapItem, WS::Levels::ILevelElement {
+    class Tile : public QGraphicsObject, public WS::Levels::ILevelElement {
+
         public:
             Tile();
 
@@ -34,16 +35,26 @@ namespace Graphics {
 
             SceneSide isOffscreenFrom();
 
+            inline void setPixmap(QUrl pUrl) {
+                pixUrl = pUrl;
+                pix = QPixmap(pUrl.path());
+            };
+            inline QPixmap& pixmap() { return pix; };
+
             int size;
 
             QPoint gridPos;
 
+        private:
+            QPixmap pix;
+            QUrl pixUrl;
+
         protected:
             void setupAttributes();
 
-        // ILevelElement interface
+            // ILevelElement interface
         public:
-            virtual const QString internalName() {return "tile";}
+            virtual const QString internalName() { return "tile"; }
             virtual void setAttribute(QString name, QString value);
             virtual QVariant getAttribute(QString name);
     };

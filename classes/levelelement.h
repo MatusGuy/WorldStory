@@ -1,7 +1,6 @@
 #ifndef ILEVELELEMENT_H
 #define ILEVELELEMENT_H
 
-#include <QObject>
 #include <QStringList>
 #include <QVariant>
 
@@ -15,10 +14,12 @@ namespace WS::Levels {
             virtual void setAttribute(QString name, QString value) = NULL;
             virtual QVariant getAttribute(QString name) = NULL;
 
+            inline const QStringList& getAttributeNames() { return attributeNames; };
+
         protected:
             QStringList attributeNames;
 
-            void setupAttributes();
+            void setupAttributes(){};
     };
 
 }

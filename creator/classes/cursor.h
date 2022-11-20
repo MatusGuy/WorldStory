@@ -8,12 +8,20 @@ namespace WS::Creator {
 using WS::Graphics::Tile;
 
 class Cursor : public Tile {
+        Q_OBJECT
+
+        Q_PROPERTY(
+            Tile* selecting
+            READ selecting
+            WRITE select
+            MEMBER _selecting
+            NOTIFY selectionChanged
+        );
 
     public:
         Cursor();
 
-        Tile* selecting = nullptr;
-
+        Tile* selecting();
         void select(Tile* tile);
         void unselect();
 
@@ -23,7 +31,12 @@ class Cursor : public Tile {
             QWidget* widget
         );
 
+    signals:
+        void selectionChanged();
+
     protected:
+        Tile* _selecting = nullptr;
+
         QPen highlightPen;
         QPen cornerPen;
 };
