@@ -60,8 +60,11 @@ Thumbs.db
 *vcxproj.*
 release/
 debug/
+out/
 .vs/
 resource.h
+CMakeLists.txt.user
+CMakeSettings.json
 
 # MinGW generated files
 *.Debug
