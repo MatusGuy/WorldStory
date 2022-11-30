@@ -5,9 +5,12 @@ using WS::Levels::Level;
 Level* WS::Levels::loadLevel(QFile* levelFile) {
     if (levelFile->isOpen()) {
         if (levelFile->openMode() == QFile::WriteOnly) {
-            qWarning("Level file is open in WriteOnly mode");
+            xmlReader.raiseError("passed file is write-only");
             return nullptr;
         }
+    } else if (!levelFile->exists()) {
+        xmlReader.raiseError("passed file doesn't exist");
+        return nullptr;
     } else levelFile->open(QFile::ReadOnly);
 
     xmlReader.setDevice(levelFile);
