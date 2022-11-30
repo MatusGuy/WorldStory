@@ -9,7 +9,7 @@
 
 bool applyStyle(QString sheetname) {
     QFile stylesheet(sheetname);
-    QApplication* app = ((QApplication*)QApplication::instance());
+    auto app = (QApplication*) QApplication::instance();
     if (stylesheet.open(QFile::ReadOnly)) {
         app->setStyleSheet(stylesheet.readAll());
         stylesheet.close();
@@ -28,6 +28,12 @@ int launchGame() {
 
     QFile lf(":/test/levels/testLevel.xml");
     WS::Levels::Level* l = WS::Levels::loadLevel(&lf);
+
+    if (l == nullptr) {
+        qCritical() << "Error loading level (in main game):" << WS::Levels::xmlReader.errorString();
+        return 1;
+    }
+
     s.setLevel(l);
 
     // l->content[1]->setPos(QPoint(0, s.pointSpacing));

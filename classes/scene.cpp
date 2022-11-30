@@ -3,7 +3,7 @@
 using namespace WS::Core;
 
 Scene::Scene(QObject *parent): QGraphicsScene{parent} {
-    //setBackgroundBrush(QBrush(Qt::GlobalColor::white));
+    setBackgroundBrush(QBrush(Qt::GlobalColor::black));
     fps.setWindowTitle("fps");
     //fps.show();
     std::time(&initTime);
