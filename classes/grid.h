@@ -6,9 +6,6 @@
 
 #include "tile.h"
 
-#include <iterator>
-#include <cstddef>
-
 namespace WS::Graphics {
 
 /**
