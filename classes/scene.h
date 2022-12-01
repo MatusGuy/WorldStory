@@ -28,7 +28,7 @@ class Scene : public QGraphicsScene {
     protected:
 
         protected slots:
-            virtual void draw() = NULL;
+            virtual void draw() = 0;
 
 };
 

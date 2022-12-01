@@ -9,10 +9,10 @@ namespace WS::Levels {
     class ILevelElement {
 
         public:
-            virtual const QString internalName() = NULL;
+            virtual const QString internalName() = 0;
 
-            virtual void setAttribute(QString name, QString value) = NULL;
-            virtual QVariant getAttribute(QString name) = NULL;
+            virtual void setAttribute(QString name, QString value) = 0;
+            virtual QVariant getAttribute(QString name) = 0;
 
             inline const QStringList& getAttributeNames() { return attributeNames; };
 
