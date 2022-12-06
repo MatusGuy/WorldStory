@@ -99,8 +99,8 @@ QTreeWidgetItem* MainWindow::getAttributeEditorCells(QTreeWidget* treeWidget, QS
 
     out->setText(0, name);
 
-    switch (value.type()) {
-        case QVariant::Point: {
+    switch ((QMetaType::Type) value.typeId()) {
+        case QMetaType::QPoint: {
             QPoint point = value.toPoint();
             out->setText(1, QString("%1,%2").arg(point.x(), point.y()));
             
@@ -120,7 +120,7 @@ QTreeWidgetItem* MainWindow::getAttributeEditorCells(QTreeWidget* treeWidget, QS
         }
 
         /*
-        case QVariant::Url:
+        case QMetaType::QUrl:
             QUrl url = value.toUrl();
             // TODO: Button that prompts with file
         */
