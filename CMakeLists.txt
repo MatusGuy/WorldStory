@@ -23,14 +23,20 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets OpenGLWidgets)
 
 # Glob & prepare files
-file(GLOB_RECURSE SOURCES   *.cpp)
-file(GLOB_RECURSE HEADERS   *.h)
+file(GLOB_RECURSE SOURCES   src/*.cpp)
+file(GLOB_RECURSE HEADERS   src/*.h)
+file(GLOB_RECURSE LIBS_SRC  lib/include/*)
 
 # Join sources with headers
-set(CODE ${SOURCES} ${HEADERS})
+set(CODE ${SOURCES} ${HEADERS} ${LIBS_SRC})
 
-file(GLOB_RECURSE FORMS     *.ui)
-file(GLOB_RECURSE RESOURCES *.qrc) # Qt resource system
+if(MSVC)
+    file(GLOB UI ui_*.h)
+    list(APPEND CODE ${UI})
+endif()
+
+file(GLOB_RECURSE FORMS     src/*.ui)
+file(GLOB_RECURSE RESOURCES src/*.qrc) # Qt resource system
 
 # Get & remove unneeded files
 file(GLOB_RECURSE TO_REM
@@ -38,7 +44,7 @@ file(GLOB_RECURSE TO_REM
     debug/*
     release/*
     out/*
-    *.h
+    #./*.h
 )
 list(REMOVE_ITEM CODE ${TO_REM})
 
@@ -75,4 +81,8 @@ target_link_libraries(WorldStory PUBLIC
 )
 
 # Give Creator access to game headers
-target_include_directories(WorldStory PUBLIC ${PROJECT_SOURCE_DIR})
+target_include_directories(WorldStory PUBLIC src/classes/)
+target_include_directories(WorldStory PUBLIC lib/include/)
+if (MSVC)
+    target_include_directories(WorldStory PUBLIC ./)
+endif()

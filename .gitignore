@@ -73,6 +73,9 @@ CMakeSettings.json
 # Python byte code
 *.pyc
 
+# libs
+lib/*
+
 # Binaries
 # --------
 *.dll

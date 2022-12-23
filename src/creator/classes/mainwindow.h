@@ -7,7 +7,7 @@
 #include <QTreeWidgetItem>
 #include <QSpinBox>
 
-#include <classes/level.h>
+#include <level.h>
 
 #include "viewport.h"
 

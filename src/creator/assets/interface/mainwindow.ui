@@ -151,20 +151,10 @@
       <number>0</number>
      </property>
      <item row="0" column="0">
-      <widget class="QTreeWidget" name="AttributeTable">
+      <widget class="QTreeView" name="AttributeTable">
        <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
-       <column>
-        <property name="text">
-         <string>Attribute</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Value</string>
-        </property>
-       </column>
       </widget>
      </item>
     </layout>
