@@ -3,7 +3,7 @@
 
 #include <QGraphicsSceneMouseEvent>
 
-#include <classes/gridscene.h>
+#include <gridscene.h>
 
 #include "cursor.h"
 

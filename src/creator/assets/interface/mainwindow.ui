@@ -50,7 +50,7 @@
      <x>0</x>
      <y>0</y>
      <width>997</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="M_File">
@@ -150,13 +150,6 @@
      <property name="bottomMargin">
       <number>0</number>
      </property>
-     <item row="0" column="0">
-      <widget class="QTreeView" name="AttributeTable">
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-      </widget>
-     </item>
     </layout>
    </widget>
   </widget>

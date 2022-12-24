@@ -1,7 +1,7 @@
 #ifndef CURSOR_H
 #define CURSOR_H
 
-#include <classes/tile.h>
+#include <tile.h>
 
 namespace WS::Creator {
 

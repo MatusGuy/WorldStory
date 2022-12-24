@@ -10,6 +10,7 @@
 #include <level.h>
 
 #include "viewport.h"
+#include "attributeeditor.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -44,7 +45,8 @@ class MainWindow : public QMainWindow {
 
         Ui::MainWindow* ui;
 
-        QTreeWidgetItem* getAttributeEditorCells(QTreeWidget* treeWidget, QString name, QVariant& value);
+        AttributeEditor attributeEditor;
+        //QTreeWidgetItem* getAttributeEditorCells(QTreeWidget* treeWidget, QString name, QVariant& value);
 
 };
 

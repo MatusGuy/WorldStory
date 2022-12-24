@@ -1,7 +1,7 @@
 #ifndef VIEWPORT_H
 #define VIEWPORT_H
 
-#include <classes/gamedisplay.h>
+#include <gamedisplay.h>
 
 //#include <classes/gridscene.h>
 #include "editorscene.h"

@@ -3,11 +3,10 @@
 using namespace WS::Creator;
 
 AttributeEditor::AttributeEditor(QWidget* parent): QtAbstractPropertyBrowser(parent) {
-	setFactoryForManager(&propManager, &propEditFactory);
 }
 
 void AttributeEditor::loadElement(WS::Levels::ILevelElement* el) {
-	clear(); // clear all properties, prepare for the new target element
+	clear(); // clear (and destroy) all properties, prepare for the new target element
 
 	levelElement = el;
 
@@ -24,6 +23,19 @@ void AttributeEditor::loadElement(WS::Levels::ILevelElement* el) {
 
 QVariant AttributeEditor::attribute(const QtProperty* prop) {
 	return element()->getAttribute(prop->propertyName());
+}
+
+void AttributeEditor::itemInserted(QtBrowserItem* item, QtBrowserItem* afterItem)
+{
+}
+
+void AttributeEditor::itemRemoved(QtBrowserItem* item)
+{
+}
+
+void AttributeEditor::itemChanged(QtBrowserItem* item)
+{
+	
 }
 
 void AttributeEditor::setAttribute(QtProperty* prop, const QString& value) {

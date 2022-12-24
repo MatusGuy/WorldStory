@@ -19,24 +19,24 @@ endif()
 ]]
 
 set(CMAKE_AUTOMOC ON)
+set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
+set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets OpenGLWidgets)
 
 # Glob & prepare files
 file(GLOB_RECURSE SOURCES   src/*.cpp)
 file(GLOB_RECURSE HEADERS   src/*.h)
-file(GLOB_RECURSE LIBS_SRC  lib/include/*)
 
 # Join sources with headers
-set(CODE ${SOURCES} ${HEADERS} ${LIBS_SRC})
-
-if(MSVC)
-    file(GLOB UI ui_*.h)
-    list(APPEND CODE ${UI})
-endif()
+set(CODE ${SOURCES} ${HEADERS})
 
 file(GLOB_RECURSE FORMS     src/*.ui)
 file(GLOB_RECURSE RESOURCES src/*.qrc) # Qt resource system
+
+# Compile forms
+qt_wrap_ui(UI ${FORMS})
+message("${UI} ${PROJECT_BINARY_DIR}")
 
 # Get & remove unneeded files
 file(GLOB_RECURSE TO_REM
@@ -48,25 +48,24 @@ file(GLOB_RECURSE TO_REM
 )
 list(REMOVE_ITEM CODE ${TO_REM})
 
-# Add Qt forms
-qt_wrap_ui(SOURCES FORMS)
-
 # Add Qt resources
-foreach(RC ${RESOURCES})
-    qt_add_resources(RESOURCES ${RC})
+foreach(QRC ${RESOURCES})
+    qt_add_resources(RCC ${QRC})
 endforeach()
 
 # Add code to the executable
-qt_add_executable(WorldStory ${CODE} ${FORMS} ${RESOURCES})
+qt_add_executable(WorldStory ${CODE} ${UI} ${FORMS} ${RESOURCES} ${RCC})
 
+# Prepare for deployment
 set_target_properties(WorldStory PROPERTIES
     WIN32_EXECUTABLE TRUE
     MACOSX_BUNDLE TRUE
 )
 
 # Add Windows executable metadata
-if (WIN32)
-    target_sources(WorldStory PUBLIC WorldStory_resource.rc)
+set(RC "WorldStory_resource.rc")
+if (WIN32 AND EXISTS ${RC})
+    target_sources(WorldStory PUBLIC ${RC})
 endif()
 
 # Defines
@@ -91,6 +90,5 @@ target_link_libraries(WorldStory PUBLIC
 # Give Creator access to game headers
 target_include_directories(WorldStory PUBLIC src/classes/)
 
-if (MSVC)
-    target_include_directories(WorldStory PUBLIC ./)
-endif()
+# Add compiled forms and other things to includepath
+target_include_directories(WorldStory PUBLIC ${PROJECT_BINARY_DIR})

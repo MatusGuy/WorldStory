@@ -3,7 +3,7 @@
 
 #include <levelelement.h>
 
-#include <qtpropertybrowser/QtVariantPropertyManager>
+#include <variantmanager.h>
 
 namespace WS::Creator {
 
@@ -37,8 +37,12 @@ class AttributeEditor : public QtAbstractPropertyBrowser {
     private:
         WS::Levels::ILevelElement* levelElement = nullptr;
 
-        QtVariantPropertyManager propManager;
+        VariantManager propManager;
         QtVariantEditorFactory propEditFactory;
+
+        virtual void itemInserted(QtBrowserItem* item, QtBrowserItem* afterItem) override;
+        virtual void itemRemoved(QtBrowserItem* item) override;
+        virtual void itemChanged(QtBrowserItem* item) override;
 };
 
 }

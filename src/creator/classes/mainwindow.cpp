@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 
     ui->L_MainLayout->addWidget(&viewport);
 
+    delete ui->D_Attributes->widget();
+
     connect(
         ui->A_Open, &QAction::triggered,
         this, &MainWindow::chooseFile
@@ -26,25 +28,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     connect(
         &viewport.editorScene.cursor, &Cursor::selectionChanged, [this]() {
             Tile* selection = viewport.editorScene.cursor.selecting();
-            if (selection == nullptr) {
-                for (int r = 0; r < ui->AttributeTable->topLevelItemCount(); r++) {
-                    const QTreeWidgetItem* item = ui->AttributeTable->topLevelItem(r);
-                    if (item != nullptr) delete item;
-                }
-                //ui->AttributeTable->clear();
-                //ui->AttributeTable.setrow                                                                                                                
-                return;
-            }
-
-            const QStringList& attNames = selection->getAttributeNames();
-            for (int i = 0; i < attNames.length(); i++) {
-                QVariant val = selection->getAttribute(attNames[i]);
-                ui->AttributeTable->addTopLevelItem(getAttributeEditorCells(
-                    ui->AttributeTable,
-                    attNames[i],
-                    val
-                ));
-            }
+            attributeEditor.loadElement(selection);
         }
     );
 
@@ -92,45 +76,6 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
         default:
             break;
     }
-}
-
-QTreeWidgetItem* MainWindow::getAttributeEditorCells(QTreeWidget* treeWidget, QString name, QVariant& value) {
-    auto out = new QTreeWidgetItem();
-
-    out->setText(0, name);
-
-    switch ((QMetaType::Type) value.typeId()) {
-        case QMetaType::QPoint: {
-            QPoint point = value.toPoint();
-            out->setText(1, QString("%1,%2").arg(point.x(), point.y()));
-            
-            auto xCell = new QTreeWidgetItem();
-            xCell->setText(0, "X");
-            QSpinBox* xSpinBox = new QSpinBox(treeWidget);
-            treeWidget->setItemWidget(xCell, 1, xSpinBox);
-
-            auto yCell = new QTreeWidgetItem();
-            yCell->setText(0, "Y");
-            QSpinBox* ySpinBox = new QSpinBox(treeWidget);
-            treeWidget->setItemWidget(yCell, 1, ySpinBox);
-
-            out->addChildren({xCell, yCell});
-
-            break;
-        }
-
-        /*
-        case QMetaType::QUrl:
-            QUrl url = value.toUrl();
-            // TODO: Button that prompts with file
-        */
-
-        default: {
-            out->setText(1, value.toString());
-        }
-    }
-
-    return out;
 }
 
 void MainWindow::loadFile(QFile* f) {
