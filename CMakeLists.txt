@@ -73,6 +73,14 @@ endif()
 add_definitions(-D__NAME__=\"${PROJECT_NAME}\")
 add_definitions(-D__VERSION__=\"${PROJECT_VERSION}\")
 
+# Libraries
+set(QTPROPERTYBROWSER lib/include/qtpropertybrowser/)
+include(${QTPROPERTYBROWSER}/src/include.cmake)
+include(${QTPROPERTYBROWSER}/pathedit-ext/include.cmake)
+BUNDLE_QTPROPERTYBROWSER(WorldStory ${QTPROPERTYBROWSER}/src)
+BUNDLE_PATHEDIT_EXT(WorldStory ${QTPROPERTYBROWSER}/pathedit-ext)
+
+# Qt
 target_link_libraries(WorldStory PUBLIC
     Qt::Core
     Qt::Gui
@@ -82,7 +90,7 @@ target_link_libraries(WorldStory PUBLIC
 
 # Give Creator access to game headers
 target_include_directories(WorldStory PUBLIC src/classes/)
-target_include_directories(WorldStory PUBLIC lib/include/)
+
 if (MSVC)
     target_include_directories(WorldStory PUBLIC ./)
 endif()
