@@ -80,7 +80,7 @@ QVariant Tile::getAttribute(QString name) {
         case 0: return QVariant(gridPos);
 
         // img
-        case 1: return QVariant(pixUrl);
+        case 1: return QVariant(pixUrl.path());
     }
 
     return QVariant();

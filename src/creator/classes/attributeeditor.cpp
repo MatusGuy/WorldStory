@@ -2,11 +2,25 @@
 
 using namespace WS::Creator;
 
-AttributeEditor::AttributeEditor(QWidget* parent): QtAbstractPropertyBrowser(parent) {
+AttributeEditor::AttributeEditor(QWidget* parent): QtTreePropertyBrowser(parent) {
+	propManager.setParent(this);
+	propEditFactory.setParent(this);
+	
+	setAlternatingRowColors(false);
+	setFactoryForManager<QtVariantPropertyManager>(&propManager, &propEditFactory);
+
+	//connect(&propManager, &VariantManager::valueChanged)
+}
+
+AttributeEditor::~AttributeEditor() {
+	propManager.clear();
+	clear();
 }
 
 void AttributeEditor::loadElement(WS::Levels::ILevelElement* el) {
-	clear(); // clear (and destroy) all properties, prepare for the new target element
+	// clear (and destroy) all properties, prepare for the new target element
+	propManager.clear();
+	clear();
 
 	levelElement = el;
 
@@ -17,7 +31,9 @@ void AttributeEditor::loadElement(WS::Levels::ILevelElement* el) {
 		QString attName = atts[i];
 		QVariant attVal = element()->getAttribute(attName);
 
-		propManager.addProperty(attVal.typeId(), attName);
+		QtVariantProperty* prop = propManager.addProperty(attVal.typeId(), attName);
+		prop->setValue(attVal);
+		addProperty(prop);
 	}
 }
 
@@ -25,19 +41,6 @@ QVariant AttributeEditor::attribute(const QtProperty* prop) {
 	return element()->getAttribute(prop->propertyName());
 }
 
-void AttributeEditor::itemInserted(QtBrowserItem* item, QtBrowserItem* afterItem)
-{
-}
-
-void AttributeEditor::itemRemoved(QtBrowserItem* item)
-{
-}
-
-void AttributeEditor::itemChanged(QtBrowserItem* item)
-{
-	
-}
-
-void AttributeEditor::setAttribute(QtProperty* prop, const QString& value) {
+void AttributeEditor::setAttribute(QtProperty* prop, QVariant& value) {
 	element()->setAttribute(prop->propertyName(), value);
 }

@@ -4,10 +4,12 @@
 #include <levelelement.h>
 
 #include <variantmanager.h>
+#include <variantfactory.h>
+#include <QtTreePropertyBrowser>
 
 namespace WS::Creator {
 
-class AttributeEditor : public QtAbstractPropertyBrowser {
+class AttributeEditor : public QtTreePropertyBrowser {
 
     Q_OBJECT
 
@@ -21,6 +23,7 @@ class AttributeEditor : public QtAbstractPropertyBrowser {
 
     public:
         AttributeEditor(QWidget* parent = nullptr);
+        ~AttributeEditor();
 
         void loadElement(WS::Levels::ILevelElement* el);
         inline WS::Levels::ILevelElement* element() { return levelElement; }
@@ -32,17 +35,13 @@ class AttributeEditor : public QtAbstractPropertyBrowser {
         QVariant attribute(const QtProperty* prop);
 
         public slots:
-            void setAttribute(QtProperty* prop, const QString& value);
+            void setAttribute(QtProperty* prop, QVariant& value);
 
     private:
         WS::Levels::ILevelElement* levelElement = nullptr;
 
         VariantManager propManager;
-        QtVariantEditorFactory propEditFactory;
-
-        virtual void itemInserted(QtBrowserItem* item, QtBrowserItem* afterItem) override;
-        virtual void itemRemoved(QtBrowserItem* item) override;
-        virtual void itemChanged(QtBrowserItem* item) override;
+        VariantFactory propEditFactory;
 };
 
 }

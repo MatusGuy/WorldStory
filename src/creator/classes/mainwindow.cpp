@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     ui->L_MainLayout->addWidget(&viewport);
 
     delete ui->D_Attributes->widget();
+    ui->D_Attributes->setWidget(&attributeEditor);
 
     connect(
         ui->A_Open, &QAction::triggered,
