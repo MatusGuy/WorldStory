@@ -11,6 +11,8 @@ AttributeEditor::AttributeEditor(QWidget* parent) : QtTreePropertyBrowser(parent
 
 	connect(&propManager, &VariantManager::valueChanged,
 		[this](QtProperty* prop, const QVariant& val) {
+			if (element() == nullptr) return;
+
 			if (!element()->getAttributeNames().contains(prop->propertyName()))
 				return;
 			
@@ -42,7 +44,18 @@ void AttributeEditor::loadElement(WS::Levels::ILevelElement* el) {
 
 		QtVariantProperty* prop = propManager.addProperty(attVal.typeId(), attName);
 		prop->setValue(attVal);
+
 		addProperty(prop);
+	}
+
+	for (QtProperty* prop : propManager.properties()) {
+		QtVariantProperty* vprop = propManager.variantProperty(prop);
+		if (vprop->propertyType() == QMetaType::QPoint) {
+			for (QtProperty* axis : vprop->subProperties()) {
+				QtVariantProperty* vaxis = propManager.variantProperty(axis);
+				vaxis->setAttribute("minimum", 0);
+			}
+		}
 	}
 }
 

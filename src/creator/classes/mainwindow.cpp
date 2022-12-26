@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     connect(
         &viewport.editorScene.cursor, &Cursor::selectionChanged, [this]() {
             Tile* selection = viewport.editorScene.cursor.selecting();
-            if (selection == nullptr) return;
             attributeEditor.loadElement(selection);
         }
     );

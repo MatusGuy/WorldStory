@@ -65,11 +65,16 @@ void Tile::setAttribute(QString name, QString value) {
         // pos
         case 0: {
             QStringList pos = value.split(',');
+            int x = pos[0].toInt();
+            int y = pos[1].toInt();
+
+            if ((x < 0) || (y < 0)) return;
+
             if (world != nullptr) {
-                world->move(this, pos[0].toInt(), pos[1].toInt());
+                world->move(this, x, y);
             } else {
-                gridPos.setX(pos[0].toInt());
-                gridPos.setY(pos[1].toInt());
+                gridPos.setX(x);
+                gridPos.setY(y);
             }
             break;
         }

@@ -44,7 +44,6 @@ Tile* Grid::get(QPoint& pos) {
 void Grid::remove(Tile* tile) {
     if (tile == nullptr) return;
 
-    if (!content.contains(tile->gridPos.x())) return;
     content[tile->gridPos.x()].remove(tile->gridPos.y());
     tile->world = nullptr;
 
@@ -62,7 +61,9 @@ void Grid::move(Tile* tile, int x, int y) {
         content[x] = QMap<int, Tile*>();
     }
 
+    content[tile->gridPos.x()][tile->gridPos.y()] = nullptr;
     remove(get(x,y));
+    //content[x][y] = nullptr;
     content[x][y] = tile;
     tile->gridPos.setX(x);
     tile->gridPos.setY(y);
