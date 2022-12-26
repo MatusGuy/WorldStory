@@ -62,7 +62,7 @@ void Grid::move(Tile* tile, int x, int y) {
         content[x] = QMap<int, Tile*>();
     }
 
-    content[tile->gridPos.x()].remove(tile->gridPos.y());
+    remove(get(x,y));
     content[x][y] = tile;
     tile->gridPos.setX(x);
     tile->gridPos.setY(y);

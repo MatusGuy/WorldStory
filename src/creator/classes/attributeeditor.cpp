@@ -14,7 +14,6 @@ AttributeEditor::AttributeEditor(QWidget* parent) : QtTreePropertyBrowser(parent
 			if (!element()->getAttributeNames().contains(prop->propertyName()))
 				return;
 			
-			qDebug() << val.typeName();
 			setAttribute(prop, val);
 		}
 	);
