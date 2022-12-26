@@ -92,8 +92,8 @@ void EditorScene::deleteTileCallback(Tile *tile) {
 }
 
 void EditorScene::attributeChangeCallback(Tile* tile) {
-    drawAllTiles();
     if (tile == cursor.selecting()) {
         cursor.gridPos = tile->gridPos;
     }
+    drawAllTiles();
 }
