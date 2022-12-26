@@ -12,17 +12,20 @@ Grid::~Grid() {
     }
 }
 
-void Grid::place(int x, int y, Tile* tile) {
-    if (!content.contains(x)) { // lol
-        content[x] = QMap<int, Tile*>();
+void Grid::place(Tile* tile) {
+    if (tile == nullptr) return;
+
+    if (find(tile)) return;
+
+    tile->world = this;
+    QPoint pos = tile->gridPos;
+
+    if (!content.contains(pos.x())) { // lol
+        content[pos.x()] = QMap<int, Tile*>();
     }
 
-    emit tileChanged(content[x][y], tile);
-    content[x][y] = tile;
-}
-
-void Grid::place(QPoint& pos, Tile* tile) {
-    return place(pos.x(), pos.y(), tile);
+    emit tileAdded(tile);
+    content[pos.x()][pos.y()] = tile;
 }
 
 Tile* Grid::get(int x, int y) {
@@ -36,6 +39,85 @@ Tile* Grid::get(int x, int y) {
 
 Tile* Grid::get(QPoint& pos) {
     return get(pos.x(), pos.y());
+}
+
+void Grid::remove(Tile* tile) {
+    if (tile == nullptr) return;
+
+    if (!content.contains(tile->gridPos.x())) return;
+    content[tile->gridPos.x()].remove(tile->gridPos.y());
+    tile->world = nullptr;
+
+    emit tileRemoved(tile);
+}
+
+void Grid::move(Tile* tile, int x, int y) {
+    if (tile == nullptr) return;
+
+    if (!find(tile)) return;
+
+    if ((tile->gridPos.x() == x) && (tile->gridPos.y() == y)) return;
+
+    if (!content.contains(x)) {
+        content[x] = QMap<int, Tile*>();
+    }
+
+    content[tile->gridPos.x()].remove(tile->gridPos.y());
+    content[x][y] = tile;
+    tile->gridPos.setX(x);
+    tile->gridPos.setY(y);
+
+    emit tileMoved(tile);
+}
+
+void Grid::move(Tile* tile, QPoint& pos) {
+    move(tile, pos.x(), pos.y());
+}
+
+bool Grid::find(Tile* tile) {
+    if (tile == nullptr) return false;
+    
+    for (QMap<int, Tile*>& column : content) {
+        for (Tile* t : column) {
+            if (t == tile) return true;
+        };
+    }
+
+    return false;
+}
+
+void Grid::sync(Tile* tile) {
+    /*
+    if (tile == nullptr) return;
+
+    bool found = false;
+
+    int x = 0, y = 0;
+
+    QMap<int, QMap<int, Tile*>>::iterator ix;
+    for (ix = content.begin(); ix != content.end(); ++ix) {
+        x = ix.key();
+
+        QMap<int, Tile*>::iterator iy;
+        for (iy = content[x].begin(); iy != content[x].end(); ++iy) {
+
+            y = iy.key();
+            if (content[x][y] == tile) {
+                found = true;
+                if ((tile->gridPos.x() == x) && (tile->gridPos.y() == y)) return;
+                break;
+            };
+        }
+
+        if (found) break;
+    }
+
+    if (!found) return;
+
+    content[tile->gridPos.x()].remove(tile->gridPos.y());
+    content[x][y] = tile;
+    */
+    return move(tile, tile->gridPos);
 }
 
 QMap<int, Tile*> Grid::row(int pos) {

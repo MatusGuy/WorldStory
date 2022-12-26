@@ -2,14 +2,22 @@
 
 using namespace WS::Creator;
 
-AttributeEditor::AttributeEditor(QWidget* parent): QtTreePropertyBrowser(parent) {
+AttributeEditor::AttributeEditor(QWidget* parent) : QtTreePropertyBrowser(parent) {
 	propManager.setParent(this);
 	propEditFactory.setParent(this);
-	
+
 	setAlternatingRowColors(false);
 	setFactoryForManager<QtVariantPropertyManager>(&propManager, &propEditFactory);
 
-	//connect(&propManager, &VariantManager::valueChanged)
+	connect(&propManager, &VariantManager::valueChanged,
+		[this](QtProperty* prop, const QVariant& val) {
+			if (!element()->getAttributeNames().contains(prop->propertyName()))
+				return;
+			
+			qDebug() << val.typeName();
+			setAttribute(prop, val);
+		}
+	);
 }
 
 AttributeEditor::~AttributeEditor() {
@@ -18,9 +26,11 @@ AttributeEditor::~AttributeEditor() {
 }
 
 void AttributeEditor::loadElement(WS::Levels::ILevelElement* el) {
+	if (el == element()) return;
+
 	// clear (and destroy) all properties, prepare for the new target element
-	propManager.clear();
 	clear();
+	propManager.clear();
 
 	levelElement = el;
 
@@ -41,6 +51,6 @@ QVariant AttributeEditor::attribute(const QtProperty* prop) {
 	return element()->getAttribute(prop->propertyName());
 }
 
-void AttributeEditor::setAttribute(QtProperty* prop, QVariant& value) {
+void AttributeEditor::setAttribute(QtProperty* prop, const QVariant& value) {
 	element()->setAttribute(prop->propertyName(), value);
 }

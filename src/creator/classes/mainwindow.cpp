@@ -22,13 +22,15 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 
     connect(
         ui->A_Delete, &QAction::triggered, [this]() {
-            this->viewport.editorScene.world->place(this->viewport.editorScene.cursor.gridPos, nullptr);
+            WS::Graphics::Grid* world = this->viewport.editorScene.world;
+            world->remove(world->get(this->viewport.editorScene.cursor.gridPos));
         }
     );
 
     connect(
         &viewport.editorScene.cursor, &Cursor::selectionChanged, [this]() {
             Tile* selection = viewport.editorScene.cursor.selecting();
+            if (selection == nullptr) return;
             attributeEditor.loadElement(selection);
         }
     );

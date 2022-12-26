@@ -27,7 +27,11 @@ class EditorScene : public WS::Graphics::GridScene {
         void drawAllTiles();
 
         protected slots:
-        void deleteTileCallback(Tile *oldTile, Tile *newTile);
+            void deleteTileCallback(Tile *tile);
+
+    private:
+        private slots:
+            void attributeChangeCallback(Tile* tile);
 };
 
 }

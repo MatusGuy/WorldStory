@@ -35,7 +35,7 @@ class AttributeEditor : public QtTreePropertyBrowser {
         QVariant attribute(const QtProperty* prop);
 
         public slots:
-            void setAttribute(QtProperty* prop, QVariant& value);
+            void setAttribute(QtProperty* prop, const QVariant& value);
 
     private:
         WS::Levels::ILevelElement* levelElement = nullptr;

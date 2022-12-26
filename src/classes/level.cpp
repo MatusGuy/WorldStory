@@ -48,6 +48,7 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
                         delete out;
                         return nullptr;
                     }
+                    break;
                 }
 
                 case 0: { // tile
@@ -78,12 +79,7 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
                         );
                     }
 
-                    out->content.place(
-                        newTile->gridPos.x(),
-                        newTile->gridPos.y(),
-                        newTile
-                    );
-
+                    out->content.place(newTile);
                     // tile already added by constructor
                 }
 

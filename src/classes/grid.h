@@ -18,11 +18,19 @@ class Grid : public QObject {
         explicit Grid(QObject *parent = nullptr);
         ~Grid();
 
-        void place(int x, int y, Tile* tile);
-        void place(QPoint& pos, Tile* tile);
+        void place(Tile* tile);
 
         Tile* get(int x, int y);
         Tile* get(QPoint& pos);
+
+        void remove(Tile* tile);
+
+        void move(Tile* tile, int x, int y);
+        void move(Tile* tile, QPoint& pos);
+
+        bool find(Tile* tile);
+
+        void sync(Tile* tile);
 
         /**
          * @brief Get row at @c pos
@@ -47,7 +55,9 @@ class Grid : public QObject {
         bool clearOnDestruction = true;
 
     signals:
-        void tileChanged(Tile* oldTile, Tile* newTile);
+        void tileAdded(Tile* tile);
+        void tileRemoved(Tile* tile);
+        void tileMoved(Tile* tile);
 
     private:
         QMap<int, QMap<int, Tile*>> content;

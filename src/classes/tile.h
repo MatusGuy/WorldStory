@@ -1,7 +1,7 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include <QGraphicsObject>
+#include <QGraphicsItem>
 #include <QPixmap>
 #include <QUrl>
 #include <QPainter>
@@ -12,6 +12,8 @@ namespace WS {
 
 namespace Graphics {
 
+    class Grid;
+
     enum SceneSide {
         None = 0,
 
@@ -21,8 +23,7 @@ namespace Graphics {
         Down = 8,
     };
 
-    class Tile : public QGraphicsObject, public WS::Levels::ILevelElement {
-
+    class Tile : public WS::Levels::ILevelElement, public QGraphicsItem {
         public:
             Tile();
 
@@ -44,6 +45,7 @@ namespace Graphics {
             int size;
 
             QPoint gridPos;
+            Grid* world = nullptr;
 
         private:
             QPixmap pix;
@@ -62,5 +64,7 @@ namespace Graphics {
 }  // namespace Graphics
 
 }  // namespace WS
+
+#include "grid.h"
 
 #endif  // TILE_H

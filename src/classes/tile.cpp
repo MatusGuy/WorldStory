@@ -3,9 +3,11 @@
 
 using namespace WS::Graphics;
 
-Tile::Tile() : QGraphicsObject() {
+Tile::Tile() : WS::Levels::ILevelElement() {
     //setCacheMode(CacheMode::DeviceCoordinateCache);
     setupAttributes();
+    gridPos.setX(0);
+    gridPos.setY(0);
 }
 
 QRectF Tile::boundingRect() const {
@@ -53,14 +55,22 @@ void Tile::setupAttributes() {
 }
 
 void Tile::setAttribute(QString name, QString value) {
+    QVariant oldVal = getAttribute(name);
+
     switch (attributeNames.indexOf(name)) {
-        case -1: qCritical() << "attribute " + name + " not found";
+        case -1:
+            qCritical() << "attribute " + name + " not found";
+            break;
 
         // pos
         case 0: {
             QStringList pos = value.split(',');
-            gridPos.setX(pos[0].toInt());
-            gridPos.setY(pos[1].toInt());
+            if (world != nullptr) {
+                world->move(this, pos[0].toInt(), pos[1].toInt());
+            } else {
+                gridPos.setX(pos[0].toInt());
+                gridPos.setY(pos[1].toInt());
+            }
             break;
         }
 
@@ -70,11 +80,15 @@ void Tile::setAttribute(QString name, QString value) {
             break;
         }
     }
+
+    emit attributeChanged(name, oldVal, getAttribute(name));
 }
 
 QVariant Tile::getAttribute(QString name) {
     switch (attributeNames.indexOf(name)) {
-        case -1: qCritical() << "attribute " + name + " not found";
+        case -1:
+            qCritical() << "attribute " + name + " not found";
+            break;
 
         // pos
         case 0: return QVariant(gridPos);

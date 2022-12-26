@@ -1,17 +1,41 @@
 #include "editorscene.h"
 
 using namespace WS::Creator;
-using WS::Graphics::Tile;
+using namespace WS::Graphics;
 
-EditorScene::EditorScene(QObject *parent) : WS::Graphics::GridScene{parent} {
+EditorScene::EditorScene(QObject *parent) : GridScene{parent} {
     addTile(&cursor);
 }
 
 void EditorScene::setLevel(Levels::Level *lvl) {
-    WS::Graphics::GridScene::setLevel(lvl);
+    GridScene::setLevel(lvl);
 
     connect(
-        world, &WS::Graphics::Grid::tileChanged, this, &EditorScene::deleteTileCallback
+        world, &Grid::tileRemoved,
+        this, &EditorScene::deleteTileCallback
+    );
+
+    for (const QMap<int, Tile*> column : world->map()) {
+        for (Tile* tile : column) {
+            connect(
+                tile, &Tile::attributeChanged,
+                [this, tile](QString, QVariant, QVariant) {
+                    attributeChangeCallback(tile);
+                }
+            );
+        }
+    }
+
+    connect(
+        world, &Grid::tileAdded,
+        [this](Tile* tile) {
+            connect(
+                tile, &Tile::attributeChanged,
+                [this, tile](QString, QVariant, QVariant) {
+                    attributeChangeCallback(tile);
+                }
+            );
+        }
     );
 }
 
@@ -58,14 +82,18 @@ void EditorScene::drawAllTiles() {
     //qDebug() << "screen tiles:" << i;
 }
 
-void EditorScene::deleteTileCallback(Tile *oldTile, Tile *newTile) {
-    qDebug() << "delete";
-    if (newTile == nullptr) {
-        oldTile->hide();
-        cursor.unselect();
-        cursor.gridPos *= 0; // lmfao
-        removeItem(oldTile);
-        drawAllTiles();
-        delete oldTile;
+void EditorScene::deleteTileCallback(Tile *tile) {
+    tile->hide();
+    cursor.unselect();
+    cursor.gridPos *= 0; // lmfao
+    removeItem(tile);
+    drawAllTiles();
+    delete tile;
+}
+
+void EditorScene::attributeChangeCallback(Tile* tile) {
+    drawAllTiles();
+    if (tile == cursor.selecting()) {
+        cursor.gridPos = tile->gridPos;
     }
 }
