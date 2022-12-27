@@ -2,6 +2,7 @@
 #define EDITORSCENE_H
 
 #include <QGraphicsSceneMouseEvent>
+#include <QMenu>
 
 #include <gridscene.h>
 
@@ -18,6 +19,8 @@ class EditorScene : public WS::Graphics::GridScene {
         void setLevel(WS::Levels::Level* lvl);
 
         Cursor cursor;
+
+        QMenu tileMenu;
 
     protected:
         void keyPressEvent(QKeyEvent* event) {Q_UNUSED(event)}

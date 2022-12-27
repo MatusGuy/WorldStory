@@ -39,15 +39,23 @@ void EditorScene::setLevel(Levels::Level *lvl) {
     );
 }
 
-void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     QPoint curPos = cameraPos + event->scenePos().toPoint();
     //cursor.setPos(qFloor<int>(curPos.x() / tileSize)*tileSize, qFloor<int>(curPos.y() / tileSize)*tileSize);
     cursor.gridPos.setX(curPos.x() / tileSize);
     cursor.gridPos.setY(curPos.y() / tileSize);
+    if (event->button() == Qt::LeftButton) {
+        cursor.select(world->get(cursor.gridPos));
+    } else if (event->button() == Qt::RightButton) {
+        if (tileMenu.isVisible()) tileMenu.close();
 
-    cursor.select(world->get(cursor.gridPos));
+        cursor.select(world->get(cursor.gridPos));
+        if (cursor.selecting() == nullptr) return;
 
-    qDebug() << curPos << cursor.gridPos;
+        tileMenu.exec(event->screenPos());
+        cursor.unselect();
+    }
+
     WS::Graphics::GridScene::mousePressEvent(event);
 }
 

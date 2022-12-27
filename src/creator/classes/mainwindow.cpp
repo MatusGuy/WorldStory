@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     delete ui->D_Attributes->widget();
     ui->D_Attributes->setWidget(&attributeEditor);
 
+    viewport.editorScene.tileMenu.addActions(ui->M_Edit->actions());
+
     connect(
         ui->A_Open, &QAction::triggered,
         this, &MainWindow::chooseFile
@@ -22,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 
     connect(
         ui->A_Delete, &QAction::triggered, [this]() {
-            WS::Graphics::Grid* world = this->viewport.editorScene.world;
-            world->remove(world->get(this->viewport.editorScene.cursor.gridPos));
+            WS::Graphics::Grid* world = viewport.editorScene.world;
+            world->remove(world->get(viewport.editorScene.cursor.gridPos));
         }
     );
 
