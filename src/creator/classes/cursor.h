@@ -31,6 +31,8 @@ class Cursor : public Tile {
             QWidget* widget
         );
 
+        bool isDragging = false;
+
     signals:
         void selectionChanged();
 

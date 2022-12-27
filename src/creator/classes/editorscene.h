@@ -1,8 +1,9 @@
 #ifndef EDITORSCENE_H
 #define EDITORSCENE_H
 
-#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsSceneEvent>
 #include <QMenu>
+#include <QApplication>
 
 #include <gridscene.h>
 
@@ -26,13 +27,17 @@ class EditorScene : public WS::Graphics::GridScene {
         void keyPressEvent(QKeyEvent* event) {Q_UNUSED(event)}
 
         void mousePressEvent(QGraphicsSceneMouseEvent* event);
+        void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+        void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+        void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
 
         void drawAllTiles();
 
         protected slots:
-            void deleteTileCallback(Tile *tile);
+            void deleteTile(Tile *tile);
 
     private:
+
         private slots:
             void attributeChangeCallback(Tile* tile);
 };

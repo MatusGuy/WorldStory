@@ -12,7 +12,7 @@ void EditorScene::setLevel(Levels::Level *lvl) {
 
     connect(
         world, &Grid::tileRemoved,
-        this, &EditorScene::deleteTileCallback
+        this, &EditorScene::deleteTile
     );
 
     for (const QMap<int, Tile*> column : world->map()) {
@@ -44,19 +44,36 @@ void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     //cursor.setPos(qFloor<int>(curPos.x() / tileSize)*tileSize, qFloor<int>(curPos.y() / tileSize)*tileSize);
     cursor.gridPos.setX(curPos.x() / tileSize);
     cursor.gridPos.setY(curPos.y() / tileSize);
+    Tile* selected = world->get(cursor.gridPos);
     if (event->button() == Qt::LeftButton) {
-        cursor.select(world->get(cursor.gridPos));
-    } else if (event->button() == Qt::RightButton) {
-        if (tileMenu.isVisible()) tileMenu.close();
-
-        cursor.select(world->get(cursor.gridPos));
-        if (cursor.selecting() == nullptr) return;
-
-        tileMenu.exec(event->screenPos());
-        cursor.unselect();
+        cursor.select(selected);
+        cursor.isDragging = true;
+    } else if (event->button() == Qt::MiddleButton) {
+        world->remove(selected);
     }
 
     WS::Graphics::GridScene::mousePressEvent(event);
+}
+
+void EditorScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
+
+}
+
+void EditorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+    if (event->button() == Qt::LeftButton) {
+        cursor.isDragging = false;
+    }
+}
+
+void EditorScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event) {
+    QPoint curPos = cameraPos + event->scenePos().toPoint();
+    //cursor.setPos(qFloor<int>(curPos.x() / tileSize)*tileSize, qFloor<int>(curPos.y() / tileSize)*tileSize);
+    cursor.gridPos.setX(curPos.x() / tileSize);
+    cursor.gridPos.setY(curPos.y() / tileSize);
+   
+    cursor.select(world->get(cursor.gridPos));
+    tileMenu.exec(event->screenPos());
+    cursor.unselect();
 }
 
 void EditorScene::drawAllTiles() {
@@ -90,7 +107,7 @@ void EditorScene::drawAllTiles() {
     //qDebug() << "screen tiles:" << i;
 }
 
-void EditorScene::deleteTileCallback(Tile *tile) {
+void EditorScene::deleteTile(Tile *tile) {
     tile->hide();
     cursor.unselect();
     cursor.gridPos *= 0; // lmfao
