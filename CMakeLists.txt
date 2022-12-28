@@ -69,8 +69,8 @@ if (WIN32 AND EXISTS ${RC})
 endif()
 
 # Defines
-add_definitions(-D__NAME__=\"${PROJECT_NAME}\")
-add_definitions(-D__VERSION__=\"${PROJECT_VERSION}\")
+add_definitions(-D__WS_NAME__=\"${PROJECT_NAME}\")
+add_definitions(-D__WS_VERSION__=\"${PROJECT_VERSION}\")
 
 # Libraries
 set(QTPROPERTYBROWSER lib/include/qtpropertybrowser/)

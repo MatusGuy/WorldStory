@@ -76,9 +76,9 @@ int launchCreator(QFile& levelFile) {
 
 int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
-    a.setApplicationName(__NAME__);
-    a.setApplicationDisplayName(__NAME__);
-    a.setApplicationVersion(__VERSION__);
+    a.setApplicationName(__WS_NAME__);
+    a.setApplicationDisplayName(__WS_NAME__);
+    a.setApplicationVersion(__WS_VERSION__);
 
     QCommandLineParser cli;
     cli.setApplicationDescription("World Story game");
