@@ -55,16 +55,6 @@ void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     WS::Graphics::GridScene::mousePressEvent(event);
 }
 
-void EditorScene::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
-
-}
-
-void EditorScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
-    if (event->button() == Qt::LeftButton) {
-        cursor.isDragging = false;
-    }
-}
-
 void EditorScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event) {
     QPoint curPos = cameraPos + event->scenePos().toPoint();
     //cursor.setPos(qFloor<int>(curPos.x() / tileSize)*tileSize, qFloor<int>(curPos.y() / tileSize)*tileSize);
@@ -105,6 +95,15 @@ void EditorScene::drawAllTiles() {
     if (!cursorIsSelecting) cursor.unselect();
 
     //qDebug() << "screen tiles:" << i;
+}
+
+QPoint EditorScene::getGridPosFromEvent(QGraphicsSceneMouseEvent* event) {
+    QPoint curPos = cameraPos + event->scenePos().toPoint();
+    //cursor.setPos(qFloor<int>(curPos.x() / tileSize)*tileSize, qFloor<int>(curPos.y() / tileSize)*tileSize);
+    cursor.gridPos.setX(curPos.x() / tileSize);
+    cursor.gridPos.setY(curPos.y() / tileSize);
+
+    return QPoint();
 }
 
 void EditorScene::deleteTile(Tile *tile) {

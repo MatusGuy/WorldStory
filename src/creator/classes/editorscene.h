@@ -37,6 +37,7 @@ class EditorScene : public WS::Graphics::GridScene {
             void deleteTile(Tile *tile);
 
     private:
+        QPoint getGridPosFromEvent(QGraphicsSceneMouseEvent* event);
 
         private slots:
             void attributeChangeCallback(Tile* tile);
