@@ -27,8 +27,6 @@ class EditorScene : public WS::Graphics::GridScene {
         void keyPressEvent(QKeyEvent* event) {Q_UNUSED(event)}
 
         void mousePressEvent(QGraphicsSceneMouseEvent* event);
-        void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
-        void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
         void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
 
         void drawAllTiles();
@@ -37,7 +35,8 @@ class EditorScene : public WS::Graphics::GridScene {
             void deleteTile(Tile *tile);
 
     private:
-        QPoint getGridPosFromEvent(QGraphicsSceneMouseEvent* event);
+        template<typename QGSEvent>
+        QPoint getGridPosFromEvent(QGSEvent* event);
 
         private slots:
             void attributeChangeCallback(Tile* tile);

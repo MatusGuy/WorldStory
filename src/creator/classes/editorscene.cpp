@@ -5,6 +5,7 @@ using namespace WS::Graphics;
 
 EditorScene::EditorScene(QObject *parent) : GridScene{parent} {
     addTile(&cursor);
+    tileMenu.setFocusPolicy(Qt::NoFocus);
 }
 
 void EditorScene::setLevel(Levels::Level *lvl) {
@@ -40,30 +41,29 @@ void EditorScene::setLevel(Levels::Level *lvl) {
 }
 
 void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-    QPoint curPos = cameraPos + event->scenePos().toPoint();
-    //cursor.setPos(qFloor<int>(curPos.x() / tileSize)*tileSize, qFloor<int>(curPos.y() / tileSize)*tileSize);
-    cursor.gridPos.setX(curPos.x() / tileSize);
-    cursor.gridPos.setY(curPos.y() / tileSize);
+    cursor.gridPos = getGridPosFromEvent(event);
     Tile* selected = world->get(cursor.gridPos);
     if (event->button() == Qt::LeftButton) {
         cursor.select(selected);
         cursor.isDragging = true;
     } else if (event->button() == Qt::MiddleButton) {
         world->remove(selected);
+    } else {
+        event->ignore();
+        return;
     }
 
     WS::Graphics::GridScene::mousePressEvent(event);
 }
 
 void EditorScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event) {
-    QPoint curPos = cameraPos + event->scenePos().toPoint();
-    //cursor.setPos(qFloor<int>(curPos.x() / tileSize)*tileSize, qFloor<int>(curPos.y() / tileSize)*tileSize);
-    cursor.gridPos.setX(curPos.x() / tileSize);
-    cursor.gridPos.setY(curPos.y() / tileSize);
+    //cursor.gridPos = getGridPosFromEvent(event);
    
-    cursor.select(world->get(cursor.gridPos));
+    //cursor.select(world->get(cursor.gridPos));
     tileMenu.exec(event->screenPos());
-    cursor.unselect();
+    //cursor.unselect();
+
+    WS::Graphics::GridScene::contextMenuEvent(event);
 }
 
 void EditorScene::drawAllTiles() {
@@ -97,13 +97,10 @@ void EditorScene::drawAllTiles() {
     //qDebug() << "screen tiles:" << i;
 }
 
-QPoint EditorScene::getGridPosFromEvent(QGraphicsSceneMouseEvent* event) {
+template<typename QGSEvent>
+QPoint EditorScene::getGridPosFromEvent(QGSEvent *event) {
     QPoint curPos = cameraPos + event->scenePos().toPoint();
-    //cursor.setPos(qFloor<int>(curPos.x() / tileSize)*tileSize, qFloor<int>(curPos.y() / tileSize)*tileSize);
-    cursor.gridPos.setX(curPos.x() / tileSize);
-    cursor.gridPos.setY(curPos.y() / tileSize);
-
-    return QPoint();
+    return QPoint(curPos.x() / tileSize, curPos.y() / tileSize);
 }
 
 void EditorScene::deleteTile(Tile *tile) {
