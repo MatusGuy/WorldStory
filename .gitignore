@@ -62,6 +62,7 @@ release/
 debug/
 out/
 .vs/
+build/
 resource.h
 CMakeLists.txt.user
 CMakeSettings.json
