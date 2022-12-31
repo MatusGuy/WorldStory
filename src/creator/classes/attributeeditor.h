@@ -26,6 +26,7 @@ class AttributeEditor : public QtTreePropertyBrowser {
         ~AttributeEditor();
 
         void loadElement(WS::Levels::ILevelElement* el);
+        void updateProperties();
         inline WS::Levels::ILevelElement* element() { return levelElement; }
 
         signals:

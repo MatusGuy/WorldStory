@@ -25,7 +25,7 @@ namespace WS::Levels {
     };
 
     Level* loadLevel(QFile* levelFile);
-
+    WS::Graphics::Tile* loadXmlElement(QString xml);
 }
 
 #endif // LEVEL_H

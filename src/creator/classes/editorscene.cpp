@@ -41,11 +41,19 @@ void EditorScene::setLevel(Levels::Level *lvl) {
 }
 
 void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-    cursor.gridPos = getGridPosFromEvent(event);
+    cursor.gridPos = getGridPosFrom(event->scenePos().toPoint());
     Tile* selected = world->get(cursor.gridPos);
     if (event->button() == Qt::LeftButton) {
         cursor.select(selected);
-        cursor.isDragging = true;
+
+        if (selected != nullptr) {
+            QDrag* drag = new QDrag(event->widget());
+            QMimeData* mime = new QMimeData;
+            Tile* selecting = cursor.selecting();
+            mime->setData("text/plain", (QString("%1,%2").arg(selecting->gridPos.x()).arg(selecting->gridPos.y())).toUtf8());
+            drag->setMimeData(mime);
+            drag->exec(Qt::MoveAction);
+        }
     } else if (event->button() == Qt::MiddleButton) {
         world->remove(selected);
     } else {
@@ -57,13 +65,29 @@ void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
 }
 
 void EditorScene::contextMenuEvent(QGraphicsSceneContextMenuEvent* event) {
-    //cursor.gridPos = getGridPosFromEvent(event);
+    cursor.gridPos = getGridPosFrom(event->scenePos().toPoint());
    
-    //cursor.select(world->get(cursor.gridPos));
+    cursor.select(world->get(cursor.gridPos));
     tileMenu.exec(event->screenPos());
-    //cursor.unselect();
+    cursor.unselect();
 
     WS::Graphics::GridScene::contextMenuEvent(event);
+}
+
+void EditorScene::dropEvent(QGraphicsSceneDragDropEvent* event) {
+    if (event->mimeData()->hasFormat("text/plain")) {
+        QStringList pos = QString(event->mimeData()->data("text/plain").data()).split(',');
+        int x = pos[0].toInt();
+        int y = pos[1].toInt();
+
+        Tile* selected = world->get(x,y);
+        
+        selected->setAttributeFromVariant("pos", getGridPosFrom(event->scenePos().toPoint()));
+
+        emit tileDragFinished(selected);
+    } else {
+        event->ignore();
+    }
 }
 
 void EditorScene::drawAllTiles() {
@@ -95,12 +119,6 @@ void EditorScene::drawAllTiles() {
     if (!cursorIsSelecting) cursor.unselect();
 
     //qDebug() << "screen tiles:" << i;
-}
-
-template<typename QGSEvent>
-QPoint EditorScene::getGridPosFromEvent(QGSEvent *event) {
-    QPoint curPos = cameraPos + event->scenePos().toPoint();
-    return QPoint(curPos.x() / tileSize, curPos.y() / tileSize);
 }
 
 void EditorScene::deleteTile(Tile *tile) {

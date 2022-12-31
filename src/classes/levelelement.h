@@ -17,7 +17,7 @@ namespace WS::Levels {
             virtual void setAttribute(QString name, QString value) = 0;
             virtual QVariant getAttribute(QString name) = 0;
 
-            inline void setAttribute(QString name, QVariant value) {
+            inline void setAttributeFromVariant(QString name, QVariant value) {
                 QString out = "";
 
                 switch ((QMetaType::Type) value.typeId()) {

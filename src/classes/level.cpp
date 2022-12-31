@@ -129,3 +129,7 @@ Level* WS::Levels::loadLevel(QFile* levelFile) {
         return nullptr;
     }
 }
+
+WS::Graphics::Tile* WS::Levels::loadXmlElement(QString xml) {
+    return nullptr;
+}

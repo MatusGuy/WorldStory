@@ -11,9 +11,7 @@
 
 namespace WS {
 
-// clang-format off
 namespace Levels { struct Level; }
-// clang-format on
 
 namespace Graphics {
     class Tile;
@@ -35,9 +33,11 @@ namespace Graphics {
              * @brief Get QPoint from position on the grid
              * @param x horizontal position of the wanted grid space
              * @param y vertical position of the wanted grid space
-             * @return location relative to game display
+             * @return location relative to grid
              */
-            QPoint getPoint(int x, int y);
+            QPoint getPointFromGrid(int x, int y);
+
+            QPoint getGridPosFrom(QPoint pos);
 
             /**
              * @brief Spacing between each point in the grid
@@ -57,22 +57,8 @@ namespace Graphics {
 
             WS::Levels::Level* level = nullptr;
 
-            
-
             void addItem(QGraphicsItem* item);
             void addTile(Tile* tile);
-
-            template <typename T>
-            static QList<T> cropListFromRange(QList<T>* list, int a, int b);
-
-            template <typename T>
-            static QList<T> crop2DListFromRanges(
-                QList<QList<T>>* list2d,
-                int ax,
-                int bx,
-                int ay,
-                int by
-            );
 
         signals:
 

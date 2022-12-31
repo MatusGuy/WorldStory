@@ -36,6 +36,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
         }
     );
 
+    connect(
+        &viewport.editorScene, &EditorScene::tileDragFinished, [this](Tile* tile) {
+            attributeEditor.updateProperties();
+        }
+    );
+
     openDir = QDir::homePath();
 
     level = nullptr;

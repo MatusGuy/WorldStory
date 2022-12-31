@@ -10,8 +10,13 @@ GridScene::~GridScene() {
     //delete world;
 }
 
-QPoint GridScene::getPoint(int x, int y) {
+QPoint GridScene::getPointFromGrid(int x, int y) {
     return QPoint(x * tileSize, y * tileSize);
+}
+
+QPoint GridScene::getGridPosFrom(QPoint pos) {
+    QPoint displayPos = cameraPos + pos;
+    return QPoint(displayPos.x() / tileSize, displayPos.y() / tileSize);
 }
 
 void GridScene::draw() {
@@ -113,27 +118,4 @@ void GridScene::setLevel(WS::Levels::Level* lvl) {
         for (Tile* tile : column) addTile(tile);
 
     draw();
-}
-
-template <typename T>
-QList<T> GridScene::cropListFromRange(QList<T>* list, int a, int b) {
-    QList<T> out;
-    for (int i = a; i < b; i++) {
-        out.append(list[i]);
-    }
-    return out;
-}
-
-template <typename T>
-QList<T> GridScene::crop2DListFromRanges(
-    QList<QList<T>>* list2d,
-    int ax,
-    int bx,
-    int ay,
-    int by
-) {
-    QList<T> out;
-    for (int ix = ax; ix < bx; ix++) {
-        out.append(cropListFromRange<T>(&list2d[ix], ay, by));
-    }
 }

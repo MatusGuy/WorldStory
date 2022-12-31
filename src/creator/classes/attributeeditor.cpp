@@ -59,10 +59,20 @@ void AttributeEditor::loadElement(WS::Levels::ILevelElement* el) {
 	}
 }
 
+void AttributeEditor::updateProperties() {
+	auto atts = levelElement->getAttributeNames();
+	for (QtProperty* prop : propManager.properties()) {
+		QtVariantProperty* vprop = propManager.variantProperty(prop);
+		if (atts.contains(vprop->propertyName())) continue;
+
+		vprop->setValue(element()->getAttribute(vprop->propertyName()));
+	}
+}
+
 QVariant AttributeEditor::attribute(const QtProperty* prop) {
 	return element()->getAttribute(prop->propertyName());
 }
 
 void AttributeEditor::setAttribute(QtProperty* prop, const QVariant& value) {
-	element()->setAttribute(prop->propertyName(), value);
+	element()->setAttributeFromVariant(prop->propertyName(), value);
 }
