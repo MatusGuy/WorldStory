@@ -39,6 +39,9 @@ class MainWindow : public QMainWindow {
         void keyPressEvent(QKeyEvent* event);
 
     private:
+        void loadStyle();
+        QPalette appStyle;
+        
         WS::Levels::Level* level;
         QFile* file;
         QString openDir;

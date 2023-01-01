@@ -49,8 +49,10 @@ int launchGame() {
 }
 
 int launchCreator() {
-    QApplication::setStyle("Fusion");
-    applyStyle(":/creator/style/appstyle.qss");
+    #ifndef __linux__
+        QApplication::setStyle("Fusion");
+    #endif
+    //applyStyle(":/creator/style/appstyle.qss");
 
     WS::Creator::MainWindow w;
     QApplication::setActiveWindow((QWidget*) &w);
@@ -61,8 +63,10 @@ int launchCreator() {
 
 int launchCreator(QFile& levelFile) {
     // later adding code for loading level file on main window class
-    QApplication::setStyle("Fusion");
-    applyStyle(":/creator/style/appstyle.qss");
+    #ifndef __linux__
+        QApplication::setStyle("Fusion");
+    #endif
+    //applyStyle(":/creator/style/appstyle.qss");
 
     WS::Creator::MainWindow w;
     w.loadFile(&levelFile);

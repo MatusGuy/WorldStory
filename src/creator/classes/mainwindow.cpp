@@ -7,6 +7,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     ui = new Ui::MainWindow;
     ui->setupUi(this);
 
+    #ifndef __linux__
+        loadStyle();
+    #endif
+
     setWindowTitle("WorldStoryCreator");
     grabKeyboard();
 
@@ -40,6 +44,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
         &viewport.editorScene, &EditorScene::tileDragFinished, [this](Tile* tile) {
             attributeEditor.updateProperties();
         }
+    );
+
+    connect(
+        ui->A_AboutQt, &QAction::triggered,
+        QApplication::instance(), &QApplication::aboutQt
     );
 
     openDir = QDir::homePath();
@@ -86,6 +95,34 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
         default:
             break;
     }
+}
+
+void MainWindow::loadStyle() {
+    QColor darkGray(53, 53, 53);
+    QColor gray(128, 128, 128);
+    QColor black(25, 25, 25);
+    QColor blue(42, 130, 218);
+
+    appStyle.setColor(QPalette::Window, darkGray);
+    appStyle.setColor(QPalette::WindowText, Qt::white);
+    appStyle.setColor(QPalette::Base, black);
+    appStyle.setColor(QPalette::AlternateBase, darkGray);
+    appStyle.setColor(QPalette::ToolTipBase, blue);
+    appStyle.setColor(QPalette::ToolTipText, Qt::white);
+    appStyle.setColor(QPalette::Text, Qt::white);
+    appStyle.setColor(QPalette::Button, darkGray);
+    appStyle.setColor(QPalette::ButtonText, Qt::white);
+    appStyle.setColor(QPalette::Link, blue);
+    appStyle.setColor(QPalette::Highlight, blue);
+    appStyle.setColor(QPalette::HighlightedText, Qt::black);
+
+    appStyle.setColor(QPalette::Active, QPalette::Button, gray.darker());
+    appStyle.setColor(QPalette::Disabled, QPalette::ButtonText, gray);
+    appStyle.setColor(QPalette::Disabled, QPalette::WindowText, gray);
+    appStyle.setColor(QPalette::Disabled, QPalette::Text, gray);
+    appStyle.setColor(QPalette::Disabled, QPalette::Light, darkGray);
+
+    QApplication::setPalette(appStyle);
 }
 
 void MainWindow::loadFile(QFile* f) {
