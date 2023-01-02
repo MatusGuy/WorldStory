@@ -6,6 +6,13 @@ using namespace WS::Graphics;
 EditorScene::EditorScene(QObject *parent) : GridScene{parent} {
     addTile(&cursor);
     tileMenu.setFocusPolicy(Qt::NoFocus);
+
+    gridOverlay = new SceneGridOverlay(this);
+    addItem(gridOverlay);
+}
+EditorScene::~EditorScene() {
+    delete gridOverlay;
+    gridOverlay = nullptr;
 }
 
 void EditorScene::setLevel(Levels::Level *lvl) {
@@ -117,6 +124,8 @@ void EditorScene::drawAllTiles() {
     }
 
     if (!cursorIsSelecting) cursor.unselect();
+
+    gridOverlay->update();
 
     //qDebug() << "screen tiles:" << i;
 }

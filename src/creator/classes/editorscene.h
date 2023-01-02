@@ -14,16 +14,19 @@
 namespace WS::Creator {
 
 class Viewport;
+class SceneGridOverlay;
 class EditorScene : public WS::Graphics::GridScene {
     Q_OBJECT
 
     public:
-        explicit EditorScene(QObject *parent = nullptr);
+        EditorScene(QObject *parent = nullptr);
+        ~EditorScene();
 
         void setLevel(WS::Levels::Level* lvl);
 
         Cursor cursor;
-        Viewport* viewport;
+        SceneGridOverlay* gridOverlay = nullptr;
+        Viewport* viewport = nullptr;
 
         QMenu tileMenu;
 
@@ -54,5 +57,6 @@ class EditorScene : public WS::Graphics::GridScene {
 }
 
 #include "viewport.h"
+#include "scenegridoverlay.h"
 
 #endif // EDITORSCENE_H
