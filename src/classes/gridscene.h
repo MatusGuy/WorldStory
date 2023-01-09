@@ -54,8 +54,6 @@ namespace Graphics {
             void addItem(QGraphicsItem* item);
             void addTile(Tile* tile);
 
-        signals:
-
         protected:
             void keyPressEvent(QKeyEvent* event);
             virtual void drawAllTiles();

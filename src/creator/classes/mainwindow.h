@@ -43,6 +43,8 @@ class MainWindow : public QMainWindow {
         void keyPressEvent(QKeyEvent* event);
 
     private:
+        QLabel cameraPosLabel;
+
         void loadStyle();
         QPalette appStyle;
         

@@ -21,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 
     viewport.editorScene.tileMenu.addActions(ui->M_Edit->actions());
 
+    cameraPosLabel.setText("Camera: 0,0");
+    ui->StatusBar->addPermanentWidget(&cameraPosLabel);
+
     connect(
         ui->A_Open, &QAction::triggered,
         this, &MainWindow::chooseFile
@@ -95,6 +98,9 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
         default:
             break;
     }
+
+    
+    cameraPosLabel.setText(QString("Camera: %1,%2").arg(viewport.editorScene.camGridPos().x()).arg(viewport.editorScene.camGridPos().y()));
 }
 
 void MainWindow::loadStyle() {
