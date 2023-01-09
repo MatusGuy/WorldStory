@@ -29,13 +29,7 @@ namespace Graphics {
             explicit GridScene(QObject* parent = nullptr);
             ~GridScene();
 
-            /**
-             * @brief Get QPoint from position on the grid
-             * @param x horizontal position of the wanted grid space
-             * @param y vertical position of the wanted grid space
-             * @return location relative to grid
-             */
-            QPoint getPointFromGrid(int x, int y);
+            QPoint getPointFromGrid(QPoint gpos);
 
             QPoint getGridPosFrom(QPoint pos);
 

@@ -25,8 +25,8 @@ class EditorScene : public WS::Graphics::GridScene {
         void setLevel(WS::Levels::Level* lvl);
 
         Cursor cursor;
-        SceneGridOverlay* gridOverlay = nullptr;
         Viewport* viewport = nullptr;
+        SceneGridOverlay* gridOverlay = nullptr;
 
         QMenu tileMenu;
 
@@ -39,8 +39,8 @@ class EditorScene : public WS::Graphics::GridScene {
         void mousePressEvent(QGraphicsSceneMouseEvent* event);
         void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
 
-        void dragEnterEvent(QGraphicsSceneDragDropEvent* event) {};
-        void dragMoveEvent(QGraphicsSceneDragDropEvent* event) {};
+        void dragEnterEvent(QGraphicsSceneDragDropEvent* event) {}
+        void dragMoveEvent(QGraphicsSceneDragDropEvent* event) {}
         void dropEvent(QGraphicsSceneDragDropEvent* event);
 
         void drawAllTiles();
@@ -56,7 +56,7 @@ class EditorScene : public WS::Graphics::GridScene {
 
 }
 
-#include "viewport.h"
 #include "scenegridoverlay.h"
+#include "viewport.h"
 
 #endif // EDITORSCENE_H

@@ -10,8 +10,8 @@ GridScene::~GridScene() {
     //delete world;
 }
 
-QPoint GridScene::getPointFromGrid(int x, int y) {
-    return QPoint(x * tileSize, y * tileSize);
+QPoint GridScene::getPointFromGrid(QPoint gpos) {
+    return gpos * tileSize;
 }
 
 QPoint GridScene::getGridPosFrom(QPoint pos) {

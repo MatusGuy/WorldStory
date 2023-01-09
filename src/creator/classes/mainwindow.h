@@ -7,6 +7,10 @@
 #include <QTreeWidgetItem>
 #include <QSpinBox>
 
+#if defined(WIN32) && defined(_MSC_VER)
+    #include <winrt/Windows.UI.ViewManagement.h>
+#endif
+
 #include <level.h>
 
 #include "viewport.h"

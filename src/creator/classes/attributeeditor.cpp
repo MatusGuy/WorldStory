@@ -60,6 +60,7 @@ void AttributeEditor::loadElement(WS::Levels::ILevelElement* el) {
 }
 
 void AttributeEditor::updateProperties() {
+    if (!levelElement) return;
 	auto atts = levelElement->getAttributeNames();
 	for (QtProperty* prop : propManager.properties()) {
 		QtVariantProperty* vprop = propManager.variantProperty(prop);

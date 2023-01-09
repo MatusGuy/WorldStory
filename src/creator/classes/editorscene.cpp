@@ -10,6 +10,7 @@ EditorScene::EditorScene(QObject *parent) : GridScene{parent} {
     gridOverlay = new SceneGridOverlay(this);
     addItem(gridOverlay);
 }
+
 EditorScene::~EditorScene() {
     delete gridOverlay;
     gridOverlay = nullptr;
@@ -125,6 +126,12 @@ void EditorScene::drawAllTiles() {
 
     if (!cursorIsSelecting) cursor.unselect();
 
+    gridOverlay->setPos(-camGridOffset() - QPoint(tileSize, tileSize));
+    gridOverlay->setRect(QRectF(
+        QPoint(0,0),
+        sceneRect().size() + QSize(tileSize, tileSize)*2
+    ));
+    //gridOverlay->setRect(QRectF(-camGridOffset() - QPoint(tileSize,tileSize), sceneRect().size() + QSize(tileSize,tileSize)));
     gridOverlay->update();
 
     //qDebug() << "screen tiles:" << i;

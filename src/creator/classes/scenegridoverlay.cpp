@@ -2,16 +2,11 @@
 
 using namespace WS::Creator;
 
-SceneGridOverlay::SceneGridOverlay(EditorScene* e): QGraphicsItem() {
+SceneGridOverlay::SceneGridOverlay(EditorScene* e): QGraphicsRectItem() {
     editor = e;
 
-    gridPen.setColor(QColor(Qt::white));
-    gridPen.setWidth(3);
-}
-
-QRectF SceneGridOverlay::boundingRect() const {
-    return QRectF();
-    //return scene()->sceneRect();
+    gridPen.setColor(QColor::fromHsv(0,0,100,floor(255/2)));
+    gridPen.setWidth(2);
 }
 
 void SceneGridOverlay::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
@@ -21,13 +16,23 @@ void SceneGridOverlay::paint(QPainter* painter, const QStyleOptionGraphicsItem* 
     painter->setPen(gridPen);
 
     int tileSize = editor->tileSize;
-    QRect sceneRect = boundingRect().toRect();
+    QRect sceneRect = rect().toRect();
 
-    for (int x = sceneRect.topLeft().x(); x < sceneRect.bottomLeft().x(); x += tileSize) {
-        painter->drawLine(x, sceneRect.topLeft().y(), x, sceneRect.bottomLeft().y());
+    for (int x = 0; x < sceneRect.size().width(); x += tileSize) {
+        painter->drawLine(
+            x,
+            0,
+            x,
+            sceneRect.size().height()
+        );
     }
 
-    for (int y = sceneRect.topLeft().y(); y < sceneRect.bottomLeft().y(); y += tileSize) {
-        painter->drawLine(sceneRect.topLeft().x(), y, sceneRect.topLeft().x(), y);
+    for (int y = 0; y < sceneRect.size().height(); y += tileSize) {
+        painter->drawLine(
+            0,
+            y,
+            sceneRect.size().width(),
+            y
+        );
     }
 }

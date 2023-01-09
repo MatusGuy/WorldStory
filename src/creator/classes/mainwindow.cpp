@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     ui->setupUi(this);
 
     #ifndef __linux__
-        loadStyle();
+    loadStyle();
     #endif
 
     setWindowTitle("WorldStoryCreator");
@@ -113,7 +113,6 @@ void MainWindow::loadStyle() {
     appStyle.setColor(QPalette::Button, darkGray);
     appStyle.setColor(QPalette::ButtonText, Qt::white);
     appStyle.setColor(QPalette::Link, blue);
-    appStyle.setColor(QPalette::Highlight, blue);
     appStyle.setColor(QPalette::HighlightedText, Qt::black);
 
     appStyle.setColor(QPalette::Active, QPalette::Button, gray.darker());
@@ -121,6 +120,21 @@ void MainWindow::loadStyle() {
     appStyle.setColor(QPalette::Disabled, QPalette::WindowText, gray);
     appStyle.setColor(QPalette::Disabled, QPalette::Text, gray);
     appStyle.setColor(QPalette::Disabled, QPalette::Light, darkGray);
+
+    #if defined(WIN32) && defined(_MSC_VER)
+    winrt::Windows::UI::ViewManagement::UISettings const ui_settings{};
+    auto const accent_color{ ui_settings.GetColorValue(
+            winrt::Windows::UI::ViewManagement::UIColorType::Accent
+    )};
+    appStyle.setColor(QPalette::Highlight, QColor(
+        accent_color.R,
+        accent_color.G,
+        accent_color.B,
+        accent_color.A
+    ));
+    #else
+    appStyle.setColor(QPalette::Highlight, blue);
+    #endif
 
     QApplication::setPalette(appStyle);
 }
