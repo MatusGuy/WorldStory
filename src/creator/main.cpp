@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     cli.addHelpOption();
     cli.addVersionOption();
 
-    cli.addPositionalArgument("lvlfile", "Load passed level file.");
+    cli.addPositionalArgument("lvlfile", "Load passed level file.", "[lvlfile]");
 
     cli.process(a);
 
@@ -19,9 +19,11 @@ int main(int argc, char* argv[]) {
         QApplication::setStyle("Fusion");
     #endif
 
+    const QStringList args = cli.positionalArguments();
+
     WS::Creator::MainWindow mw;
-    if (cli.isSet("lvlfile")) {
-        QFile* lvl = new QFile(cli.value("lvlfile"));
+    if (args.length() > 0) {
+        QFile* lvl = new QFile(args[0]);
         mw.loadFile(lvl);
         delete lvl;
     }
