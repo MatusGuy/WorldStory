@@ -9,14 +9,14 @@
 
 #include "grid.h"
 
-#if defined(_MSC_VER)
-#define global __declspec(selectany)
-#elif defined(__GNUG__)
-#define global __attribute__((weak))
+#if defined(_MSC_VER) || defined(__clang__)
+#define includeglobal __declspec(selectany)
+#elif defined(__GNUG__) && !defined(__clang__)
+#define includeglobal __attribute__((weak))
 #endif
 
 namespace WS::Levels {
-    global QXmlStreamReader xmlReader;
+    includeglobal QXmlStreamReader xmlReader;
 
     struct Level {
 

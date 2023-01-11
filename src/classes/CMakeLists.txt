@@ -14,6 +14,10 @@ file(GLOB CODE ${PROJECT_SOURCE_DIR}/*.cpp ${PROJECT_SOURCE_DIR}/*.h)
 qt_add_library(libws STATIC ${CODE})
 set_target_properties(libws PROPERTIES OUTPUT_NAME "libws")
 
+if(APPLE)
+    target_compile_options(libws PUBLIC "-fdeclspec")
+endif()
+
 target_link_libraries(libws PUBLIC
     Qt::Core
     Qt::Gui
