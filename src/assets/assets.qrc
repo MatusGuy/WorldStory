@@ -3,5 +3,7 @@
         <file>levels/testLevel.xml</file>
         <file>textures/tile_.png</file>
         <file>textures/testTile.png</file>
+        <file>textures/tile1.png</file>
+        <file>textures/tile2.png</file>
     </qresource>
 </RCC>
