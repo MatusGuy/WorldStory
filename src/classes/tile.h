@@ -36,9 +36,9 @@ namespace Graphics {
 
             SceneSide isOffscreenFrom();
 
-            inline void setPixmap(QUrl pUrl) {
-                pixUrl = pUrl;
-                pix = QPixmap(pUrl.path());
+            inline void setPixmap(QString id) {
+                pixId = id;
+                pix = QPixmap(QString(":/textures/tiles/%1.png").arg(id));
             };
             inline QPixmap& pixmap() { return pix; };
 
@@ -49,7 +49,7 @@ namespace Graphics {
 
         private:
             QPixmap pix;
-            QUrl pixUrl;
+            QString pixId;
 
         protected:
             void setupAttributes();

@@ -4,45 +4,45 @@
 
     <tile
         pos="0,6"
-        img=":/test/textures/tile1.png" />
+        img="tile1" />
 
     <tile
         pos="1,6"
-        img=":/test/textures/tile1.png" />
+        img="tile1" />
 
     <tile
         pos="2,6"
-        img=":/test/textures/tile1.png" />
+        img="tile1" />
 
     <tile
         pos="3,6"
-        img=":/test/textures/tile2.png" />
+        img="tile2" />
 
     <tile
         pos="4,6"
-        img=":/test/textures/tile1.png" />
+        img="tile1" />
 
     <tile
         pos="5,6"
-        img=":/test/textures/tile1.png" />
+        img="tile1" />
 
     <tile
         pos="6,6"
-        img=":/test/textures/tile1.png" />
+        img="tile1" />
 
     <tile
         pos="7,6"
-        img=":/test/textures/tile2.png" />
+        img="tile2" />
 
     <tile
         pos="8,6"
-        img=":/test/textures/tile1.png" />
+        img="tile1" />
 
     <tile
         pos="9,6"
-        img=":/test/textures/tile1.png" />
+        img="tile1" />
 
     <tile
         pos="10,6"
-        img=":/test/textures/tile1.png" />
+        img="tile1" />
 </level>

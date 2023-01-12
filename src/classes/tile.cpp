@@ -81,7 +81,7 @@ void Tile::setAttribute(QString name, QString value) {
 
         // img
         case 1: {
-            setPixmap(QUrl::fromLocalFile(value));
+            setPixmap(value);
             break;
         }
     }
@@ -99,7 +99,7 @@ QVariant Tile::getAttribute(QString name) {
         case 0: return QVariant(gridPos);
 
         // img
-        case 1: return QVariant(pixUrl.path());
+        case 1: return QVariant(pixId);
     }
 
     return QVariant();
