@@ -24,6 +24,13 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     cameraPosLabel.setText("Camera: 0,0");
     ui->StatusBar->addPermanentWidget(&cameraPosLabel);
 
+    mytoolbar.addActions(QList<QAction*>()
+        << new QAction("a1", &mytoolbar)
+        << new QAction("a2", &mytoolbar)
+        << new QAction("a3", &mytoolbar)
+    );
+    addToolBar(Qt::LeftToolBarArea, &mytoolbar);
+
     connect(
         ui->A_Open, &QAction::triggered,
         this, &MainWindow::chooseFile
