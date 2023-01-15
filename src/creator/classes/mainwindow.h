@@ -15,7 +15,7 @@
 
 #include "viewport.h"
 #include "attributeeditor.h"
-#include "singleoptiontoolbar.h"
+#include "toolbar.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -57,7 +57,7 @@ class MainWindow : public QMainWindow {
 
         AttributeEditor attributeEditor;
 
-        SingleOptionToolBar mytoolbar;
+        Toolbar mytoolbar;
         //QTreeWidgetItem* getAttributeEditorCells(QTreeWidget* treeWidget, QString name, QVariant& value);
 
 };
