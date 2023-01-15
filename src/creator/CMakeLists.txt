@@ -5,7 +5,6 @@ project(
 )
 
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
 set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
 
@@ -14,11 +13,17 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets OpenGLWidgets)
 file(GLOB FORMS assets/interface/*.ui)
 qt_wrap_ui(UI ${FORMS})
 
-file(GLOB CODE  classes/*.cpp classes/*.h)
+file(GLOB_RECURSE CODE classes/*.cpp classes/*.h)
 list(APPEND CODE main.cpp)
 
-qt_add_resources(QRC assets/creatorassets.qrc)
+qt_add_resources(QRC assets/creator.qrc)
 qt_add_resources(QRC ../assets/assets.qrc)
+
+if(NOT "${CMAKE_SYSTEM}" MATCHES "Linux")
+    qt_add_resources(QRC assets/icons/icons.qrc)
+endif()
+
+message("rcc: ${QRC}")
 
 qt_add_executable(WSCreator ${UI} ${CODE} ${QRC})
 

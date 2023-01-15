@@ -10,7 +10,7 @@ set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets OpenGLWidgets)
 
-qt_add_resources(QRC assets/assets.qrc)
+qt_add_resources(QRC ./assets/assets.qrc)
 
 qt_add_executable(WSGame main.cpp ${QRC})
 
