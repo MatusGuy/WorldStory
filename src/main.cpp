@@ -17,11 +17,11 @@ int main(int argc, char* argv[]) {
     WS::Graphics::GridScene s(&w);
     w.setScene(&s);
 
-    QFile lf(":/test/levels/testLevel.xml");
+    QFile lf(":/levels/testLevel.xml");
     WS::Levels::Level* l = WS::Levels::loadLevel(&lf);
 
     if (l == nullptr) {
-        qCritical() << "Error loading level (in main game):" << WS::Levels::xmlReader.errorString();
+        qCritical() << "Error loading level:" << WS::Levels::xmlReader.errorString();
         return 1;
     }
 

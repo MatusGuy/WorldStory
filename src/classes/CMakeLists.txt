@@ -20,6 +20,12 @@ if(APPLE)
     target_compile_options(libws PUBLIC "-fdeclspec")
 endif()
 
+if(MSVC)
+    file(REAL_PATH "$CACHE{Qt6_DIR}/../../../bin/" QT_BIN_DIR)
+    message(${QT_BIN_DIR})
+    target_link_directories(libws PUBLIC ${QT_BIN_DIR})
+endif()
+
 target_link_libraries(libws PUBLIC
     Qt::Core
     Qt::Gui
