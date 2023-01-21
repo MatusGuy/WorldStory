@@ -38,6 +38,7 @@ void EditorScene::setLevel(Levels::Level *lvl) {
     connect(
         world, &Grid::tileAdded,
         [this](Tile* tile) {
+            drawAllTiles();
             connect(
                 tile, &Tile::attributeChanged,
                 [this, tile](QString, QVariant, QVariant) {
@@ -49,7 +50,9 @@ void EditorScene::setLevel(Levels::Level *lvl) {
 }
 
 void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
-    cursor.gridPos = getGridPosFrom(event->scenePos().toPoint());
+    //cursor.gridPos = getGridPosFrom(event->scenePos().toPoint());
+    emit tileSpotPressed(getGridPosFrom(event->scenePos().toPoint()));
+    /*
     Tile* selected = world->get(cursor.gridPos);
     if (event->button() == Qt::LeftButton) {
         cursor.select(selected);
@@ -68,6 +71,7 @@ void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
         event->ignore();
         return;
     }
+    */
 
     WS::Graphics::GridScene::mousePressEvent(event);
 }

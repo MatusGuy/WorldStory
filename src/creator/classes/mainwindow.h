@@ -17,6 +17,9 @@
 #include "attributeeditor.h"
 #include "toolbar.h"
 
+#include "tools/pencil.h"
+#include "tools/selectiontool.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -57,7 +60,8 @@ class MainWindow : public QMainWindow {
 
         AttributeEditor attributeEditor;
 
-        Toolbar mytoolbar;
+        Toolbar toolbar;
+        QToolBar toolSettings;
         //QTreeWidgetItem* getAttributeEditorCells(QTreeWidget* treeWidget, QString name, QVariant& value);
 
 };

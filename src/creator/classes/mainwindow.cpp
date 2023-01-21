@@ -24,12 +24,31 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     cameraPosLabel.setText("Camera: 0,0");
     ui->StatusBar->addPermanentWidget(&cameraPosLabel);
 
-    mytoolbar.addActions(QList<QAction*>()
-        << new QAction("a1", &mytoolbar)
-        << new QAction("a2", &mytoolbar)
-        << new QAction("a3", &mytoolbar)
+    toolbar.setWindowTitle("Toolbar");
+    toolbar.addActions(QList<QAction*>()
+        << new SelectionTool(&viewport.editorScene, &toolbar)
+        << new Pencil(&viewport.editorScene, &toolbar)
     );
-    addToolBar(Qt::LeftToolBarArea, &mytoolbar);
+    addToolBar(Qt::LeftToolBarArea, &toolbar);
+
+    toolSettings.setWindowTitle("Tool settings");
+    toolSettings.setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    addToolBar(Qt::TopToolBarArea, &toolSettings);
+    connect(
+        &toolbar, &Toolbar::actionTriggered,
+        this, [this](QAction* a) {
+            ITool* tool = (ITool*) a;
+            //toolSettings.clear();
+            for (QAction* setting : toolSettings.actions()) setting->setVisible(false);
+            const QWidgetList* settingsUi = tool->settingsUi();
+            if (settingsUi == nullptr) return;
+            for (QWidget* w : *settingsUi) {
+                w->setVisible(true);
+                toolSettings.addWidget(w);
+            }
+        }
+    );
+    toolbar.actions().at(0)->setChecked(true);
 
     connect(
         ui->A_Open, &QAction::triggered,
@@ -45,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 
     connect(
         &viewport.editorScene.cursor, &Cursor::selectionChanged, [this]() {
-            Tile* selection = viewport.editorScene.cursor.selecting();
+            WS::Graphics::Tile* selection = viewport.editorScene.cursor.selecting();
             attributeEditor.loadElement(selection);
         }
     );
@@ -53,6 +72,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     connect(
         &viewport.editorScene, &EditorScene::tileDragFinished, [this](Tile* tile) {
             attributeEditor.updateProperties();
+        }
+    );
+
+    connect(
+        &viewport.editorScene, &EditorScene::tileSpotPressed, [this](QPoint pos) {
+            toolbar.selected()->action(pos);
         }
     );
 

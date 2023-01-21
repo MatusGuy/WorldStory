@@ -39,8 +39,8 @@ namespace Graphics {
             inline void setPixmap(QString id) {
                 pixId = id;
                 pix = QPixmap(QString(":/textures/tiles/%1.png").arg(id));
-            };
-            inline QPixmap& pixmap() { return pix; };
+            }
+            inline QPixmap& pixmap() { return pix; }
 
             int size;
 

@@ -18,12 +18,9 @@ list(APPEND CODE main.cpp)
 
 qt_add_resources(QRC assets/creator.qrc)
 qt_add_resources(QRC ../assets/assets.qrc)
+qt_add_resources(QRC assets/icons/icons.qrc)
 
-if(NOT "${CMAKE_SYSTEM}" MATCHES "Linux")
-    qt_add_resources(QRC assets/icons/icons.qrc)
-endif()
-
-message("rcc: ${QRC}")
+message("qrc: ${QRC}")
 
 qt_add_executable(WSCreator ${UI} ${CODE} ${QRC})
 

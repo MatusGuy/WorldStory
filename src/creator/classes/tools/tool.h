@@ -4,26 +4,24 @@
 #include <QAction>
 #include <QWidgetList>
 
-#include <grid.h>
+#include "../editorscene.h"
 
 namespace WS::Creator {
 
 class ITool : public QAction {
+
     public:
-        explicit ITool(WS::Graphics::Grid* t, QObject *parent = nullptr):
+        ITool(EditorScene* s, QObject *parent = nullptr):
             QAction(parent)
         {
-            target = t;
+            scene = s;
+            setCheckable(true);
         }
 
         virtual void action(QPoint pos) = 0;
-        virtual const QWidgetList& settingsUi() = 0;
+        virtual const QWidgetList* settingsUi() = 0;
 
-        static const QString toolName() { return "tool"; }
-        static const QIcon toolIcon() { return QIcon::fromTheme(""); }
-
-    protected:
-        WS::Graphics::Grid* target;
+        EditorScene* scene;
 };
 
 }

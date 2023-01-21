@@ -12,5 +12,7 @@
         <file>edit-redo.png</file>
         <file>edit-undo.png</file>
         <file>help-about.png</file>
+        <file>edit.png</file>
+        <file>edit-select.png</file>
     </qresource>
 </RCC>

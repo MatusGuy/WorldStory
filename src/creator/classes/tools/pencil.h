@@ -12,14 +12,11 @@ namespace WS::Creator {
 class Pencil : public WS::Creator::ITool {
 
     public:
-        explicit Pencil(WS::Graphics::Grid* t, QObject *parent = nullptr);
+        explicit Pencil(EditorScene* s, QObject *parent = nullptr);
         ~Pencil();
 
         virtual void action(QPoint pos);
-        const QWidgetList& settingsUi();
-
-        static const QString toolName() {return "Pencil";}
-        static const QIcon toolIcon() {return QIcon::fromTheme("");}
+        const QWidgetList* settingsUi();
 
     private:
         //Tile picture;

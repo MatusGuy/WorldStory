@@ -31,6 +31,7 @@ class EditorScene : public WS::Graphics::GridScene {
         QMenu tileMenu;
 
         signals:
+            void tileSpotPressed(QPoint pos);
             void tileDragFinished(Tile* tile);
 
     protected:

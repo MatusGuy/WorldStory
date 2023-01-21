@@ -19,6 +19,11 @@ int main(int argc, char* argv[]) {
         QApplication::setStyle("Fusion");
     #endif
 
+    QIcon::setThemeName("icons");
+    QStringList searchpaths = QIcon::fallbackSearchPaths();
+    searchpaths.append(":/icons/");
+    QIcon::setFallbackSearchPaths(searchpaths);
+
     const QStringList args = cli.positionalArguments();
 
     WS::Creator::MainWindow mw;
