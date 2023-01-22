@@ -31,21 +31,15 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     );
     addToolBar(Qt::LeftToolBarArea, &toolbar);
 
-    toolSettings.setWindowTitle("Tool settings");
-    toolSettings.setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    addToolBar(Qt::TopToolBarArea, &toolSettings);
     connect(
         &toolbar, &Toolbar::actionTriggered,
         this, [this](QAction* a) {
             ITool* tool = (ITool*) a;
-            //toolSettings.clear();
-            for (QAction* setting : toolSettings.actions()) setting->setVisible(false);
-            const QWidgetList* settingsUi = tool->settingsUi();
-            if (settingsUi == nullptr) return;
-            for (QWidget* w : *settingsUi) {
-                w->setVisible(true);
-                toolSettings.addWidget(w);
-            }
+            if (toolSettings != nullptr) toolSettings->hide();
+            toolSettings = tool->settingsBar;
+            if (toolSettings == nullptr) return;
+            addToolBar(Qt::TopToolBarArea, toolSettings);
+            toolSettings->show();
         }
     );
     toolbar.actions().at(0)->setChecked(true);

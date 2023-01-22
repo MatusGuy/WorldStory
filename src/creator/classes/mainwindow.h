@@ -61,7 +61,7 @@ class MainWindow : public QMainWindow {
         AttributeEditor attributeEditor;
 
         Toolbar toolbar;
-        QToolBar toolSettings;
+        QToolBar* toolSettings = nullptr;
         //QTreeWidgetItem* getAttributeEditorCells(QTreeWidget* treeWidget, QString name, QVariant& value);
 
 };

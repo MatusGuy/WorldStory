@@ -7,30 +7,35 @@ Pencil::Pencil(EditorScene* s, QObject *parent): WS::Creator::ITool(s,parent) {
     setText("Pencil");
     setIcon(QIcon::fromTheme("edit"));
 
-    QDir tileTextures(":/textures/tiles/");
-    for (const QFileInfo& tile : tileTextures.entryInfoList(QDir::Files)) {
-        QToolButton* tileButton = new QToolButton;
-        tileButton->setObjectName(tile.baseName());
+    settingsBar = new QToolBar;
+
+    QDir tileTextureDir(":/textures/tiles/");
+    QFileInfoList tileTextures = tileTextureDir.entryInfoList(QDir::Files);
+    for (int i = 0; i<tileTextures.length(); i++) {
+        QToolButton* tileButton = new QToolButton(settingsBar);
+        QFileInfo texture = tileTextures[i];
+        tileButton->setObjectName(texture.baseName());
         tileButton->setCheckable(true);
+        tileButton->setIcon(QIcon(texture.absoluteFilePath()));
         buttonGroup.addButton(tileButton);
-        tileButtons.append(tileButton);
+        settingsBar->addWidget(tileButton);
+        if (i==0) tileButton->setChecked(true);
     }
 
-    QToolButton* defaultTile = tileButtons[0];
+    /*
+    QToolButton* defaultTile = buttonGroup.set;
     defaultTile->setChecked(true);
-}
-
-Pencil::~Pencil() {
-    for (QToolButton* button : tileButtons) delete button;
+    */
 }
 
 void Pencil::action(QPoint pos) {
+    scene->world->remove(scene->world->get(pos));
     Tile* tile = new Tile;
     tile->gridPos = pos;
-    tile->setPixmap(buttonGroup.checkedButton()->objectName());
+    tile->setAttribute("img", buttonGroup.checkedButton()->objectName());
     scene->world->place(tile);
-}
-
-const QWidgetList* Pencil::settingsUi() {
-    return (const QWidgetList*) &tileButtons;
+    QLabel* preview = new QLabel;
+    //preview->setParent(settingsBar);
+    preview->setPixmap(tile->pixmap());
+    preview->show();
 }

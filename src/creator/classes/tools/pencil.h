@@ -13,16 +13,13 @@ class Pencil : public WS::Creator::ITool {
 
     public:
         explicit Pencil(EditorScene* s, QObject *parent = nullptr);
-        ~Pencil();
 
         virtual void action(QPoint pos);
-        const QWidgetList* settingsUi();
 
     private:
         //Tile picture;
 
         QButtonGroup buttonGroup;
-        QList<QToolButton*> tileButtons;
 };
 
 }

@@ -10,7 +10,6 @@ class SelectionTool : public WS::Creator::ITool {
         SelectionTool(EditorScene* s, QObject *parent = nullptr);
 
         virtual void action(QPoint pos);
-        virtual const QWidgetList* settingsUi();
 
     private:
         Cursor* cursor;

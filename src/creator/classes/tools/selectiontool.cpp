@@ -11,7 +11,3 @@ void SelectionTool::action(QPoint pos) {
     scene->cursor.select(scene->world->get(pos));
 }
 
-const QWidgetList* SelectionTool::settingsUi() {
-    return nullptr;
-}
-

@@ -2,7 +2,7 @@
 #define TOOL_H
 
 #include <QAction>
-#include <QWidgetList>
+#include <QToolBar>
 
 #include "../editorscene.h"
 
@@ -17,11 +17,14 @@ class ITool : public QAction {
             scene = s;
             setCheckable(true);
         }
+        ~ITool() {
+            if (settingsBar != nullptr) delete settingsBar;
+        }
 
         virtual void action(QPoint pos) = 0;
-        virtual const QWidgetList* settingsUi() = 0;
 
         EditorScene* scene;
+        QToolBar* settingsBar = nullptr;
 };
 
 }
