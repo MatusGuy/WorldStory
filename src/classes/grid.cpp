@@ -24,8 +24,8 @@ void Grid::place(Tile* tile) {
         content[pos.x()] = QMap<int, Tile*>();
     }
 
-    emit tileAdded(tile);
     content[pos.x()][pos.y()] = tile;
+    emit tileAdded(tile);
 }
 
 Tile* Grid::get(int x, int y) {

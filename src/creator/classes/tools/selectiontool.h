@@ -9,7 +9,7 @@ class SelectionTool : public WS::Creator::ITool {
     public:
         SelectionTool(EditorScene* s, QObject *parent = nullptr);
 
-        virtual void action(QPoint pos);
+        virtual void sceneEvent(QGraphicsSceneEvent *event);
 
     private:
         Cursor* cursor;

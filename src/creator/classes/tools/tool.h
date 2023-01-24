@@ -21,10 +21,13 @@ class ITool : public QAction {
             if (settingsBar != nullptr) delete settingsBar;
         }
 
-        virtual void action(QPoint pos) = 0;
+        virtual void sceneEvent(QGraphicsSceneEvent *event) = 0;
 
         EditorScene* scene;
         QToolBar* settingsBar = nullptr;
+
+    protected:
+
 };
 
 }

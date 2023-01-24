@@ -19,6 +19,7 @@
 
 #include "tools/pencil.h"
 #include "tools/selectiontool.h"
+#include "tools/eraser.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

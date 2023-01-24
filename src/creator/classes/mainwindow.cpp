@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     toolbar.addActions(QList<QAction*>()
         << new SelectionTool(&viewport.editorScene, &toolbar)
         << new Pencil(&viewport.editorScene, &toolbar)
+        << new Eraser(&viewport.editorScene, &toolbar)
     );
     addToolBar(Qt::LeftToolBarArea, &toolbar);
 
@@ -70,8 +71,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     );
 
     connect(
-        &viewport.editorScene, &EditorScene::tileSpotPressed, [this](QPoint pos) {
-            toolbar.selected()->action(pos);
+        &viewport.editorScene, &EditorScene::sceneEvent, [this](QGraphicsSceneEvent* e) {
+            toolbar.selected()->sceneEvent(e);
         }
     );
 

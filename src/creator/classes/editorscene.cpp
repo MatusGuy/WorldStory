@@ -38,6 +38,7 @@ void EditorScene::setLevel(Levels::Level *lvl) {
     connect(
         world, &Grid::tileAdded,
         [this](Tile* tile) {
+            addTile(tile);
             drawAllTiles();
             connect(
                 tile, &Tile::attributeChanged,
@@ -49,9 +50,14 @@ void EditorScene::setLevel(Levels::Level *lvl) {
     );
 }
 
+bool EditorScene::event(QEvent* event) {
+    emit sceneEvent((QGraphicsSceneEvent*) event);
+    return GridScene::event(event);
+}
+
 void EditorScene::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     //cursor.gridPos = getGridPosFrom(event->scenePos().toPoint());
-    emit tileSpotPressed(getGridPosFrom(event->scenePos().toPoint()));
+    //emit tileSpotPressed(getGridPosFrom(event->scenePos().toPoint()));
     /*
     Tile* selected = world->get(cursor.gridPos);
     if (event->button() == Qt::LeftButton) {
@@ -113,7 +119,9 @@ void EditorScene::drawAllTiles() {
     //qDebug() << "camera pos:" << cameraPos;
     //qDebug() << "ri rj:" << gridCamPos;
     //int i=0;
-    for (Tile *tile : world->capture(gridCamPos - QPoint(1, 1), (camBottomRight() / tileSize) + QPoint(1, 1))) {
+
+    auto captured = world->capture(gridCamPos - QPoint(1, 1), (camBottomRight() / tileSize) + QPoint(1, 1));
+    for (Tile *tile : captured) {
         //QPoint pos = getPoint(tile->gridPos.x(),tile->gridPos.y())-cameraPos*tileSize;
         QPoint pos((tile->gridPos - gridCamPos) * tileSize - camGridOffset());
         //qDebug() << pos;

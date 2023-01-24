@@ -31,10 +31,12 @@ class EditorScene : public WS::Graphics::GridScene {
         QMenu tileMenu;
 
         signals:
-            void tileSpotPressed(QPoint pos);
+            void sceneEvent(QGraphicsSceneEvent* event);
             void tileDragFinished(Tile* tile);
 
     protected:
+        bool event(QEvent* event) override;
+
         void keyPressEvent(QKeyEvent* event) {Q_UNUSED(event)}
 
         void mousePressEvent(QGraphicsSceneMouseEvent* event);

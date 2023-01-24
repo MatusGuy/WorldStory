@@ -14,5 +14,7 @@
         <file>help-about.png</file>
         <file>edit.png</file>
         <file>edit-select.png</file>
+        <file>edit-erase.png</file>
+        <file>edit-move.png</file>
     </qresource>
 </RCC>

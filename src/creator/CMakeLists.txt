@@ -20,8 +20,6 @@ qt_add_resources(QRC assets/creator.qrc)
 qt_add_resources(QRC ../assets/assets.qrc)
 qt_add_resources(QRC assets/icons/icons.qrc)
 
-message("qrc: ${QRC}")
-
 qt_add_executable(WSCreator ${UI} ${CODE} ${QRC})
 
 if(NOT TARGET libws)

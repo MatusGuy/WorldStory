@@ -14,12 +14,16 @@ class Pencil : public WS::Creator::ITool {
     public:
         explicit Pencil(EditorScene* s, QObject *parent = nullptr);
 
-        virtual void action(QPoint pos);
+        virtual void sceneEvent(QGraphicsSceneEvent *event);
 
     private:
         //Tile picture;
 
         QButtonGroup buttonGroup;
+        bool down;
+        QPoint gridPos;
+
+        void placeAt(QPoint& pos);
 };
 
 }

@@ -28,14 +28,49 @@ Pencil::Pencil(EditorScene* s, QObject *parent): WS::Creator::ITool(s,parent) {
     */
 }
 
-void Pencil::action(QPoint pos) {
+void Pencil::sceneEvent(QGraphicsSceneEvent *event) {
+    switch (event->type()) {
+        case QGraphicsSceneEvent::GraphicsSceneMousePress: {
+            auto mouseEvent = (QGraphicsSceneMouseEvent*) event;
+            if (!(mouseEvent->buttons() | Qt::LeftButton)) return;
+
+            down = true;
+
+            QPoint pos = scene->getGridPosFrom(mouseEvent->scenePos().toPoint());
+            gridPos = pos;
+
+            placeAt(pos);
+
+            break;
+        }
+        case QGraphicsSceneEvent::GraphicsSceneMouseMove: {
+            if (!down) return;
+
+            auto mouseEvent = (QGraphicsSceneMouseEvent*) event;
+
+            QPoint pos = scene->getGridPosFrom(mouseEvent->scenePos().toPoint());
+            if (gridPos == pos) return;
+            gridPos = pos;
+
+            placeAt(pos);
+
+            break;
+        }
+        case QGraphicsSceneEvent::GraphicsSceneMouseRelease: {
+            auto mouseEvent = (QGraphicsSceneMouseEvent*) event;
+            if (!(mouseEvent->buttons() | Qt::LeftButton)) return;
+
+            down = false;
+
+            break;
+        }
+    }
+}
+
+void Pencil::placeAt(QPoint& pos) {
     scene->world->remove(scene->world->get(pos));
     Tile* tile = new Tile;
     tile->gridPos = pos;
     tile->setAttribute("img", buttonGroup.checkedButton()->objectName());
     scene->world->place(tile);
-    QLabel* preview = new QLabel;
-    //preview->setParent(settingsBar);
-    preview->setPixmap(tile->pixmap());
-    preview->show();
 }
