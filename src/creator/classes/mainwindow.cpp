@@ -51,6 +51,11 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
     );
 
     connect(
+        ui->A_Save, &QAction::triggered,
+        this, &MainWindow::writeFile
+    );
+
+    connect(
         ui->A_Delete, &QAction::triggered, [this]() {
             WS::Graphics::Grid* world = viewport.editorScene.world;
             world->remove(world->get(viewport.editorScene.cursor.gridPos));
@@ -89,6 +94,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent) {
 
 MainWindow::~MainWindow() {
     if (level != nullptr) unloadLevel();
+    if (file != nullptr) {
+        delete file;
+        file = nullptr;
+    }
     delete ui;
 }
 
@@ -190,6 +199,10 @@ void MainWindow::loadFile(QFile* f) {
         return;
     }
 
+    if (file != nullptr) {
+        delete file;
+        file = nullptr;
+    }
     file = f;
     openDir = QFileInfo(file->fileName()).dir().path();
 
@@ -208,8 +221,10 @@ void MainWindow::loadLevel(Levels::Level* lvl) {
 void MainWindow::unloadLevel() {
     setWindowTitle("WorldStoryCreator");
     delete level;
-    file = nullptr;
-    //delete file;
+}
+
+void MainWindow::writeFile() {
+    writeLevel(file, level);
 }
 
 WS::Levels::Level* MainWindow::loadedLevel() {

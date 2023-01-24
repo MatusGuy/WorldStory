@@ -7,6 +7,31 @@
 #include <QUrl>
 
 namespace WS::Levels {
+    inline QString getReadableFormat(QVariant value) {
+        QString out = "";
+
+        switch ((QMetaType::Type) value.typeId()) {
+
+        case QMetaType::QPoint: {
+            QPoint point = value.toPoint();
+            QString format = "%1,%2";
+            out = format.arg(point.x()).arg(point.y());
+            break;
+        }
+
+        case QMetaType::QUrl:
+            out = value.toUrl().path();
+            break;
+
+        default:
+            out = value.toString();
+            break;
+
+        }
+
+        return out;
+    }
+
     class ILevelElement : public QObject {
 
         Q_OBJECT
@@ -18,29 +43,8 @@ namespace WS::Levels {
             virtual QVariant getAttribute(QString name) = 0;
 
             inline void setAttributeFromVariant(QString name, QVariant value) {
-                QString out = "";
-
-                switch ((QMetaType::Type) value.typeId()) {
-
-                case QMetaType::QPoint: {
-                    QPoint point = value.toPoint();
-                    QString format = "%1,%2";
-                    out = format.arg(point.x()).arg(point.y());
-                    break;
-                }
-
-                case QMetaType::QUrl:
-                    out = value.toUrl().path();
-                    break;
-
-                default:
-                    out = value.toString();
-                    break;
-
-                }
-
-                setAttribute(name, out);
-            };
+                setAttribute(name, getReadableFormat(value));
+            }
 
             inline const QStringList& getAttributeNames() { return attributeNames; }
 

@@ -30,7 +30,6 @@ int main(int argc, char* argv[]) {
     if (args.length() > 0) {
         QFile* lvl = new QFile(args[0]);
         mw.loadFile(lvl);
-        delete lvl;
     }
     mw.show();
 

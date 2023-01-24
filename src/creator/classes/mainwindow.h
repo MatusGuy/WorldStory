@@ -16,6 +16,7 @@
 #include "viewport.h"
 #include "attributeeditor.h"
 #include "toolbar.h"
+#include "writer.h"
 
 #include "tools/pencil.h"
 #include "tools/selectiontool.h"
@@ -37,6 +38,7 @@ class MainWindow : public QMainWindow {
         void loadFile(QFile* f);
         void loadLevel(WS::Levels::Level* lvl);
         void unloadLevel();
+        void writeFile();
         WS::Levels::Level* loadedLevel();
 
         WS::Creator::Viewport viewport;
